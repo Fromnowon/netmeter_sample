@@ -9,4 +9,4 @@ demo下载地址：http://pan.baidu.com/s/1sj7KMxZ
 ----------------------------------------
 更新了设置界面，暂时不再处理这块，准备加入上传\下载速度分离，以及流量统计。
 
-![image](https://github.com/Fromnowon/netmeter_sample/raw/master/UpdateUI1.1.png)
+![image](https://github.com/Fromnowon/netmeter_sample/raw/master/UpdateUI_1.1.png)
