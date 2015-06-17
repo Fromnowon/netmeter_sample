@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NetMeter_Sample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="dialog_color_OK">确定</string>
+    <string name="dialog_color_cancle">取消</string>
+    <string name="choose_a_color">请选择颜色</string>
+    <string name="set_text_size_string">滑动以调整字体大小:</string>
+</resources>
