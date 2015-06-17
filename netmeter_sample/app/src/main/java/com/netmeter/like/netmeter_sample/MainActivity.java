@@ -14,12 +14,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -55,6 +60,29 @@ public class MainActivity extends ActionBarActivity {
 
         //悬浮窗
         FloatWin();
+
+        /*ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .setTheme(0)
+                .build();
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        // repeat many times:
+        ImageView itemIcon = new ImageView(this);
+        ImageView itemIcon0 = new ImageView(this);
+        ImageView itemIcon1 = new ImageView(this);
+        itemIcon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        itemIcon0.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        itemIcon1.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(itemBuilder.setContentView(itemIcon).build())
+                .addSubActionView(itemBuilder.setContentView(itemIcon0).build())
+                .addSubActionView(itemBuilder.setContentView(itemIcon1).build())
+                                // ...
+                .attachTo(actionButton)
+                .build();*/
 
     }
 
