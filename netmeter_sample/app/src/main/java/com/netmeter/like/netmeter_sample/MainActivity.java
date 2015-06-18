@@ -1,5 +1,6 @@
 package com.netmeter.like.netmeter_sample;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,12 +11,16 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -25,6 +30,7 @@ import android.widget.Toast;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -47,6 +53,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         loadSettings();
         intent = new Intent(MainActivity.this, com.netmeter.like.netmeter_sample.NetMeterService.class);
+
+        //所谓沉浸
+        transLucentStatus();
 
         //初始化时间间隔设置下拉菜单
         reflashTime();
@@ -84,6 +93,29 @@ public class MainActivity extends ActionBarActivity {
                 .attachTo(actionButton)
                 .build();*/
 
+    }
+
+    public void transLucentStatus() {
+        setTranslucentStatus(true);
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.MyBar);
+        SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.mainlayout);
+        relativeLayout.setPadding(0, config.getPixelInsetTop(true), 0, config.getPixelInsetBottom());
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     private void reflashTime() {
@@ -233,12 +265,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void saveSettings(Boolean isChecked) {
-        //获得编辑器
         SharedPreferences.Editor editor = getSharedPreferences(SETTINGS_SAVE, MODE_WORLD_WRITEABLE).edit();
-        //将内容添加到编辑器
         if (isChecked) editor.putString("NetMeter", "ON");
         else editor.putString("NetMeter", "OFF");
-        //提交编辑器内容
         editor.commit();
     }
 

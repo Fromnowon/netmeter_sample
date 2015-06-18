@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainlayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollview0">
 
         <LinearLayout
             android:id="@+id/layout_0"
@@ -143,6 +145,37 @@
                     android:layout_marginTop="10dp" />
             </LinearLayout>
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/set_color"
+                android:layout_marginTop="20dp"
+                android:background="?android:attr/listDivider"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="关于"
+                android:textColor="@android:color/holo_green_dark"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作者：Fromnowon"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="版本：1.0"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"

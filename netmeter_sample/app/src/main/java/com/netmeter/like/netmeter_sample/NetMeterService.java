@@ -63,15 +63,11 @@ public class NetMeterService extends Service {
 
         windowManager = (WindowManager) this.getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.RGBA_8888);
-        //这里一行直接搞定所有属性，也可以分成几句，一个一个设置……
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-        //开始在左上角……
         layoutParams.x = layoutParams.y = 0;
         windowManager.addView(view, layoutParams);
-        //添加，然后就能看见了……
         onMove();
         final Handler tempHandler = new Handler() {
-            //首先加一个TextView搞清楚……
             TextView textTraffic = (TextView) view.findViewById(R.id.traffic);
             long t, t1 =0, t2;
             double d = 0;
@@ -96,7 +92,7 @@ public class NetMeterService extends Service {
                                 flag = false;
                             }
                         }
-                        textTraffic.setText("" + d + unit);//减一下就是网速了……
+                        textTraffic.setText("" + d + unit);
                         t1 = t2;
                 }
             }
@@ -135,9 +131,7 @@ public class NetMeterService extends Service {
     }
 
     private void readSetting() {
-        //获得SharedPreferences实例
         SharedPreferences pre = getSharedPreferences(TMP_SAVED, MODE_WORLD_READABLE);
-        //从SharedPreferences中获得内容
         SleepTime = (pre.getInt("reflash_time", 1)+1)*500;
         textColorTmp = pre.getString("ColorText", "#FFFFFF");
         textSize = pre.getFloat("text_size", 15);
@@ -154,22 +148,18 @@ public class NetMeterService extends Service {
                     case MotionEvent.ACTION_DOWN:
                         x = p2.getX();
                         y = p2.getY();
-                        //获取触屏位置……
                         break;
 
                     case MotionEvent.ACTION_MOVE:
                         layoutParams.x += p2.getX() - x;
                         layoutParams.y += p2.getY() - y;
-                        //移动……
                         windowManager.updateViewLayout(view, layoutParams);
-                        //更新……
                         break;
 
                     default:
                         break;
                 }
                 return true;
-                //返回true的话，优先级低的几个事件就不会被处理……
             }
 
 
