@@ -26,5 +26,3 @@
 
 2015.6.17:
 更新了界面。
-
-![image](https://github.com/Fromnowon/netmeter_sample/raw/master/UpdateUI_1.1.png)
