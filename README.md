@@ -6,7 +6,12 @@ demo下载地址：http://pan.baidu.com/s/1sj7KMxZ
 
 ![image](https://github.com/Fromnowon/netmeter_sample/raw/master/Screenshot.png)
 
-----------------------------------------
-更新了设置界面，暂时不再处理这块，准备加入上传\下载速度分离，以及流量统计。
+------------更新历史----------------------------
+
+2015.6.18:
+增加了所谓“沉浸”状态栏。
+
+2015.6.17:
+更新了界面。
 
 ![image](https://github.com/Fromnowon/netmeter_sample/raw/master/UpdateUI_1.1.png)
