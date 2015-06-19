@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -27,22 +28,25 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kyleduo.switchbutton.SwitchButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private static final String SETTINGS_SAVE = "settings_save";
     private Intent intent;
-    private Switch aSwitch;
+    private SwitchButton aSwitch;
     private TextView textView, textView1, textView2;
     private ImageButton imageButton;
     private AlertDialog mAlertDialog;
     private String ColorText;
-    private SeekBar seekBar;
+    private DiscreteSeekBar seekBar;
     private float textSize;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapterTime = null;
@@ -96,6 +100,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void transLucentStatus() {
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("Demo");
         setTranslucentStatus(true);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
@@ -144,12 +150,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setSeekBar() {
-        seekBar = (SeekBar) findViewById(R.id.set_textsize);
+        seekBar = (DiscreteSeekBar) findViewById(R.id.set_textsize);
         seekBar.setMax(100);
+        seekBar.setIndicatorPopupEnabled(false);
         //seekBar.setProgress(50);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+            public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int progress, boolean b) {
                 if (progress >= 0 && progress < 10) {
                     textSize = 10;
                     seekBar.setProgress(0);
@@ -187,12 +194,12 @@ public class MainActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(DiscreteSeekBar discreteSeekBar) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(DiscreteSeekBar discreteSeekBar) {
                 //更新预览textview
                 textView2 = (TextView) findViewById(R.id.text_sample);
                 textView2.setTextSize(textSize);
@@ -211,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void FloatWin() {
-        aSwitch = (Switch) findViewById(R.id.netMeter);
+        aSwitch = (SwitchButton) findViewById(R.id.netMeter);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -252,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
         //从SharedPreferences中获得内容
         String NetMeter = pre.getString("NetMeter", "");
         ColorText = pre.getString("ColorText", "#FFFFFF");
-        aSwitch = (Switch) findViewById(R.id.netMeter);
+        aSwitch = (SwitchButton) findViewById(R.id.netMeter);
         if (NetMeter.equals("ON")) aSwitch.setChecked(true);
         else aSwitch.setChecked(false);
 
@@ -260,7 +267,7 @@ public class MainActivity extends ActionBarActivity {
         TextView textView_t = (TextView) findViewById(R.id.text_sample);
         textView_t.setTextColor(Color.parseColor(ColorText));
         textView_t.setTextSize(textsize);
-        SeekBar seekBar_t = (SeekBar) findViewById(R.id.set_textsize);
+        DiscreteSeekBar seekBar_t = (DiscreteSeekBar) findViewById(R.id.set_textsize);
         seekBar_t.setProgress(pre.getInt("seekBarProgress", 50));
     }
 

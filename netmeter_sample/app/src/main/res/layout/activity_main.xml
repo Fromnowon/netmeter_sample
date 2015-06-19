@@ -1,50 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <ScrollView
+        android:id="@+id/scrollview0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollview0">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/layout_0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin">
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="开关"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="bold" />
 
-            <Switch
-                android:id="@+id/netMeter"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:text="网速监控"
-                android:textColor="@color/primary_dark_material_dark" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp">
 
-            <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="服务状态：" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/netMeter"
+                    style="@style/MaterialDesignStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="10dp" />
+            </RelativeLayout>
+
+            <!--<View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/set_color"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:paddingRight="20dp" />-->
 
 
             <TextView
@@ -59,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -72,15 +85,6 @@
                     android:layout_height="wrap_content"
                     android:entries="@array/reflashtime"></Spinner>
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/set_color"
-                android:layout_marginTop="10dp"
-                android:background="?android:attr/listDivider"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,17 +114,23 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp" />
 
-                <ImageButton
-                    android:id="@+id/meterColor_click"
+                <LinearLayout
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@drawable/colorpicker_button" />
+                    android:background="@drawable/colorpicker_button">
+
+                    <ImageButton
+                        android:id="@+id/meterColor_click"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -138,52 +148,40 @@
                     android:gravity="center_vertical"
                     android:text="1024KB/s" />
 
-                <SeekBar
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                     android:id="@+id/set_textsize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/set_color"
-                android:layout_marginTop="20dp"
-                android:background="?android:attr/listDivider"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="关于"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="作者：zzh"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="版本：1.0"
-                    android:layout_marginTop="10dp"/>
-            </LinearLayout>
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/set_color"
                 android:layout_marginTop="20dp"
-                android:background="?android:attr/listDivider"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="作者：zzh" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="版本：1.0" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
