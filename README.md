@@ -12,15 +12,15 @@
 ------------更新历史------------
 
 2015.6.19:
-采用自定义SeekBar和SwtichButton、调整UI，现在软件界面在4.0.3以上表现完全一样了！
+    采用自定义SeekBar和SwtichButton、调整UI，现在软件界面在4.0.3以上表现完全一样了！
 
-这真的是最后一次UI修改了...：）
+    这真的是最后一次UI修改了...：）
 
-（github：
+   感谢：
 
-https://github.com/AnderWeb/discreteSeekBar， 
+    https://github.com/AnderWeb/discreteSeekBar， 
 
-https://github.com/kyleduo/SwitchButton）
+    https://github.com/kyleduo/SwitchButton）
 
 2015.6.18:
 增加了所谓“沉浸”状态栏。
