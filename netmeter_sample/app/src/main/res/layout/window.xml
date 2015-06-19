@@ -3,16 +3,39 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
-	android:orientation="vertical"
+	android:orientation="horizontal"
 	android:gravity="center"
 	android:background="@drawable/meterbackground">
-
+	<ImageView
+		android:layout_width="15dp"
+		android:layout_height="15dp"
+		android:id="@+id/net_arrow"/>
 	<TextView
-		android:layout_marginLeft="2dp"
-		android:layout_marginRight="2dp"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:id="@+id/traffic" />
+		android:id="@+id/traffic"
+		android:layout_marginLeft="0.5dp"
+		android:layout_marginRight="0.5dp" />
+	<View
+		android:layout_width="1dip"
+		android:layout_height="match_parent"
+		android:background="#ff000000"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="1dp"
+		android:layout_marginBottom="1dp"
+		android:visibility="gone"/>
+	<ImageView
+		android:layout_width="15dp"
+		android:layout_height="15dp"
+		android:id="@+id/net_arrow0"
+		android:visibility="gone"/>
+	<TextView
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:id="@+id/traffic0"
+		android:layout_marginLeft="0.5dp"
+		android:layout_marginRight="0.5dp"
+		android:visibility="gone"/>
 
 </LinearLayout>
 

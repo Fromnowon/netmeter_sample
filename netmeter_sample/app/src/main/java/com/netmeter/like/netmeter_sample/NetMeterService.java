@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.os.Binder;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /*后台网速监控服务*/
@@ -27,7 +29,8 @@ public class NetMeterService extends Service {
     private WindowManager.LayoutParams layoutParams;
     static int SleepTime;
     static boolean Run = true;
-    private TextView textView;
+    private TextView textView, textView0;
+    private ImageView imageView, imageView0;
     private String textColorTmp;
     private Thread MyThread;
     private float textSize;
@@ -56,10 +59,17 @@ public class NetMeterService extends Service {
         readSetting();
         //textView.setTextColor(Color.parseColor("#FFFFFF"));
         view = LayoutInflater.from(this).inflate(R.layout.window, null);
+        imageView = (ImageView) view.findViewById(R.id.net_arrow);
+        imageView0 = (ImageView) view.findViewById(R.id.net_arrow0);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_down));
+        imageView0.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_up));
         //读取字体颜色
         textView = (TextView) view.findViewById(R.id.traffic);
         textView.setTextColor(Color.parseColor(textColorTmp));
         textView.setTextSize(textSize);
+        textView0 = (TextView) view.findViewById(R.id.traffic0);
+        textView0.setTextColor(Color.parseColor(textColorTmp));
+        textView0.setTextSize(textSize);
 
         windowManager = (WindowManager) this.getSystemService(WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.RGBA_8888);
@@ -68,15 +78,15 @@ public class NetMeterService extends Service {
         windowManager.addView(view, layoutParams);
         onMove();
         final Handler tempHandler = new Handler() {
-            TextView textTraffic = (TextView) view.findViewById(R.id.traffic);
-            long t, t1 =0, t2;
+            long t,_t,t1 =0,_t1=0, t2,_t2;
             double d = 0;
             String unit = "";
-
             public void handleMessage(Message m) {
                 switch (m.what) {
                     case 0:
                         t2 = TrafficStats.getTotalRxBytes();
+                        _t2 = TrafficStats.getTotalTxBytes();
+                        _t = _t2 - _t1;
                         t = t2 - t1;
                         //设定阈值
                         if (t > 512&& t1!=0) {
@@ -92,8 +102,10 @@ public class NetMeterService extends Service {
                                 flag = false;
                             }
                         }
-                        textTraffic.setText("" + d + unit);
+                        textView.setText("" + d + unit);
+                        textView0.setText("" + d + unit);
                         t1 = t2;
+                        _t1 = _t2;
                 }
             }
 

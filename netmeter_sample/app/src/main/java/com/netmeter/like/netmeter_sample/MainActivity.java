@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -283,7 +284,12 @@ public class MainActivity extends ActionBarActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final TextView colorText = new TextView(this);
-        ColorPickerView colorPick = new ColorPickerView(this, Color.parseColor("#FFFFFF"), 0.8, colorText);
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        double zoom;
+        if (metric.densityDpi<=320) zoom = 0.8;
+        else zoom = 2.0;
+        ColorPickerView colorPick = new ColorPickerView(this, Color.parseColor("#FFFFFF"), zoom, colorText);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         lp.gravity = Gravity.CENTER_HORIZONTAL;
