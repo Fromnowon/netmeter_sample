@@ -2,7 +2,7 @@
 简单的网速监控app，尚待完善。
 
 
-最新demo下载地址：http://pan.baidu.com/s/1mgIK0rA
+最新demo下载地址：http://pan.baidu.com/s/1ntCCLPR
 
 
 ![image](https://github.com/Fromnowon/netmeter_sample/raw/master/Screenshot.png)
