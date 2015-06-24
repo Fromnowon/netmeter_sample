@@ -5,27 +5,34 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.v7.app.ActionBar;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,11 +58,15 @@ public class MainActivity extends ActionBarActivity {
     private float textSize;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapterTime = null;
+    //用于回掉销毁主activity
+    public static MainActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
+
         loadSettings();
         intent = new Intent(MainActivity.this, com.netmeter.like.netmeter_sample.NetMeterService.class);
 
@@ -75,33 +86,83 @@ public class MainActivity extends ActionBarActivity {
         //悬浮窗
         FloatWin();
 
-        /*ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        //小彩蛋
+        //floatBtn();
 
+    }
+
+    //剪切bitmap实现圆角
+    public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+    }
+
+    private void floatBtn() {
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 .setTheme(0)
                 .build();
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-        // repeat many times:
-        ImageView itemIcon = new ImageView(this);
-        ImageView itemIcon0 = new ImageView(this);
-        ImageView itemIcon1 = new ImageView(this);
-        itemIcon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-        itemIcon0.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-        itemIcon1.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(itemBuilder.setContentView(itemIcon).build())
-                .addSubActionView(itemBuilder.setContentView(itemIcon0).build())
-                .addSubActionView(itemBuilder.setContentView(itemIcon1).build())
-                                // ...
-                .attachTo(actionButton)
-                .build();*/
 
+        // repeat many times:
+        FrameLayout.LayoutParams tvParams = new FrameLayout.LayoutParams(100, 100);
+        itemBuilder.setLayoutParams(tvParams);
+
+        ImageView itemIcon = new ImageView(this);
+        TextView textViewM = new TextView(this);
+        textViewM.setText("点个赞哟!" + "\n" + "_(:з」∠)_");
+        textViewM.setTextSize(18);
+        textViewM.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        //textViewM.setGravity(Gravity.CENTER_VERTICAL);
+        //itemIcon.setImageDrawable(getResources().getDrawable(R.drawable.myic));
+
+        Drawable drawable = getResources().getDrawable(R.drawable.myic);
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ImageView imageView = new ImageView(this);
+        imageView.setImageBitmap(toRoundCorner(bitmap, 180));
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        //圆角函数存在局限性
+        if (metric.densityDpi<=320){
+            imageView.setImageBitmap(toRoundCorner(bitmap, 120));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(120,120));
+        }
+        else {
+            imageView.setImageBitmap(toRoundCorner(bitmap, 180));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(180, 180));
+        }
+
+        itemIcon.setLayoutParams(tvParams);
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(imageView)
+                .addSubActionView(textViewM)
+                .attachTo(actionButton)
+                .setStartAngle(190)
+                .setEndAngle(260)
+                .build();
     }
 
     public void transLucentStatus() {
-        getSupportActionBar().setElevation(0);
+        //取消actionbar阴影
+        //getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("Demo");
         setTranslucentStatus(true);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -241,7 +302,6 @@ public class MainActivity extends ActionBarActivity {
         textView.setText(ColorText);
         imageButton.setBackgroundColor(Color.parseColor(ColorText));
         //textView.setTextColor(Color.parseColor(ColorText));
-
         textView1 = (TextView) findViewById(R.id.text_sample);
         textView1.setTextColor(Color.parseColor(ColorText));
         imageButton.setOnTouchListener(new View.OnTouchListener() {
@@ -284,10 +344,11 @@ public class MainActivity extends ActionBarActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final TextView colorText = new TextView(this);
+        //根据不同分辨率调整拾色器尺寸
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         double zoom;
-        if (metric.densityDpi<=320) zoom = 0.8;
+        if (metric.densityDpi <= 320) zoom = 0.8;
         else zoom = 2.0;
         ColorPickerView colorPick = new ColorPickerView(this, Color.parseColor("#FFFFFF"), zoom, colorText);
 
@@ -323,5 +384,4 @@ public class MainActivity extends ActionBarActivity {
                 })
                 .create();
     }
-
 }
