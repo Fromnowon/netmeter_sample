@@ -5,7 +5,7 @@
 最新demo下载地址：http://pan.baidu.com/s/1ntCCLPR
 
 
-    ![image](https://github.com/Fromnowon/netmeter_sample/raw/master/Screenshot.png)
+    [image](https://github.com/Fromnowon/netmeter_sample/raw/master/Screenshot.png)
 
 
 
@@ -16,7 +16,7 @@
     
     
     
-    ![image](https://github.com/Fromnowon/netmeter_sample/raw/master/ic_01.png)
+    [image](https://github.com/Fromnowon/netmeter_sample/raw/master/ic_01.png)
 
 
 2015.6.19_2:
