@@ -1,8 +1,6 @@
 package com.netmeter.like.netmeter_sample;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -13,12 +11,12 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,19 +28,26 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.gc.materialdesign.widgets.Dialog;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.netmeter.like.netmeter_sample.Service.NetMeterService;
+import com.netmeter.like.netmeter_sample.Setting.MeterSetting;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import net.margaritov.preference.colorpicker.ColorPickerDialog;
+
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -52,12 +57,13 @@ public class MainActivity extends ActionBarActivity {
     private SwitchButton aSwitch;
     private TextView textView, textView1, textView2;
     private ImageButton imageButton;
-    private AlertDialog mAlertDialog;
     private String ColorText;
     private DiscreteSeekBar seekBar;
     private float textSize;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapterTime = null;
+    //AlertDialog mAlertDialog;
+    ColorPickerDialog mAlertDialog;
     //用于回掉销毁主activity
     public static MainActivity instance = null;
 
@@ -66,9 +72,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+        intent = new Intent(MainActivity.this, NetMeterService.class);
 
+        //初始化设置
         loadSettings();
-        intent = new Intent(MainActivity.this, com.netmeter.like.netmeter_sample.NetMeterService.class);
 
         //所谓沉浸
         transLucentStatus();
@@ -76,8 +83,8 @@ public class MainActivity extends ActionBarActivity {
         //初始化时间间隔设置下拉菜单
         reflashTime();
 
-        //设置颜色
-        colorPicker();//初始化拾色器
+        //初始化拾色器
+        colorPicker();
         setColor();
 
         //设置进度条
@@ -91,72 +98,21 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    //剪切bitmap实现圆角
-    public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-        final float roundPx = pixels;
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
-
     private void floatBtn() {
         ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_manage));
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 .setTheme(0)
                 .build();
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-
         // repeat many times:
-        FrameLayout.LayoutParams tvParams = new FrameLayout.LayoutParams(100, 100);
-        itemBuilder.setLayoutParams(tvParams);
-
-        ImageView itemIcon = new ImageView(this);
-        TextView textViewM = new TextView(this);
-        textViewM.setText("点个赞哟!" + "\n" + "_(:з」∠)_");
-        textViewM.setTextSize(18);
-        textViewM.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        //textViewM.setGravity(Gravity.CENTER_VERTICAL);
-        //itemIcon.setImageDrawable(getResources().getDrawable(R.drawable.myic));
-
-        Drawable drawable = getResources().getDrawable(R.drawable.myic);
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ImageView imageView = new ImageView(this);
-        imageView.setImageBitmap(toRoundCorner(bitmap, 180));
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        //圆角函数存在局限性
-        if (metric.densityDpi<=320){
-            imageView.setImageBitmap(toRoundCorner(bitmap, 120));
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(120,120));
-        }
-        else {
-            imageView.setImageBitmap(toRoundCorner(bitmap, 180));
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(180, 180));
-        }
-
-        itemIcon.setLayoutParams(tvParams);
+        FrameLayout.LayoutParams tvParams = new FrameLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        View view0 = LayoutInflater.from(this).inflate(R.layout.metersetting, null);
+        view0.setLayoutParams(tvParams);
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(imageView)
-                .addSubActionView(textViewM)
+                .addSubActionView(view0)
+                .setStartAngle(225)
                 .attachTo(actionButton)
-                .setStartAngle(190)
-                .setEndAngle(260)
                 .build();
     }
 
@@ -164,6 +120,7 @@ public class MainActivity extends ActionBarActivity {
         //取消actionbar阴影
         //getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("Demo");
+        //getSupportActionBar().hide();
         setTranslucentStatus(true);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
@@ -215,7 +172,6 @@ public class MainActivity extends ActionBarActivity {
         seekBar = (DiscreteSeekBar) findViewById(R.id.set_textsize);
         seekBar.setMax(100);
         seekBar.setIndicatorPopupEnabled(false);
-        //seekBar.setProgress(50);
         seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int progress, boolean b) {
@@ -286,10 +242,26 @@ public class MainActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     startService(intent);
-                    Toast.makeText(MainActivity.this, "悬浮窗开启！", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "悬浮窗开启！", Toast.LENGTH_SHORT).show();
+                    SnackbarManager.show(
+                            Snackbar.with(MainActivity.this)
+                                    .text("悬浮窗启动！")
+                                    .color(Color.parseColor("#ff098173"))
+                                    .actionLabel("确定")
+                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                                    .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                                    .type(SnackbarType.MULTI_LINE));
                 } else {
                     stopService(intent);
-                    Toast.makeText(MainActivity.this, "悬浮窗关闭！", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "悬浮窗关闭！", Toast.LENGTH_SHORT).show();
+                    SnackbarManager.show(
+                            Snackbar.with(MainActivity.this)
+                                    .text("悬浮窗关闭！")
+                                    .color(Color.parseColor("#ffff4444"))
+                                    .actionLabel("确定")
+                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
+                                    .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                                    .type(SnackbarType.MULTI_LINE));
                 }
                 saveSettings(isChecked);
             }
@@ -340,48 +312,65 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void colorPicker() {
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        //新版本拾色器
+        mAlertDialog = new ColorPickerDialog(this, Color.parseColor(ColorText));
+        //mAlertDialog.setAlphaSliderVisible(true);
+        //mAlertDialog.setHexValueEnabled(true);
+        mAlertDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int color) {
+                //捕获最终颜色
+                StringBuffer s = new StringBuffer(Integer.toHexString(color));
+                s.delete(0, 2);
+                s.insert(0, "#");
+                ColorText = s.toString();
+                textView.setText(ColorText);
+                //textView.setTextColor(Color.parseColor(ColorText));
+                textView1.setTextColor(Color.parseColor(ColorText));
+                imageButton.setBackgroundColor(Color.parseColor(ColorText));
+                //保存颜色
+                SharedPreferences.Editor editor = getSharedPreferences(SETTINGS_SAVE, MODE_WORLD_WRITEABLE).edit();
+                editor.putString("ColorText", ColorText);
+                editor.commit();
+                if (stopService(intent)) startService(intent);
+                mAlertDialog.dismiss();
+            }
+        });
+    }
 
-        final TextView colorText = new TextView(this);
-        //根据不同分辨率调整拾色器尺寸
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        double zoom;
-        if (metric.densityDpi <= 320) zoom = 0.8;
-        else zoom = 2.0;
-        ColorPickerView colorPick = new ColorPickerView(this, Color.parseColor("#FFFFFF"), zoom, colorText);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        lp.gravity = Gravity.CENTER_HORIZONTAL;
-        layout.addView(colorPick, lp);
-        layout.addView(colorText, lp);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        mAlertDialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.choose_a_color))
-                .setView(layout)
-                .setPositiveButton(getString(R.string.dialog_color_OK), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Log.d("TAG", "the color choose is " + colorText.getText());
-                        //捕获最终颜色
-                        ColorText = colorText.getText().toString();
-                        textView.setText(ColorText);
-                        //textView.setTextColor(Color.parseColor(ColorText));
-                        textView1.setTextColor(Color.parseColor(ColorText));
-                        imageButton.setBackgroundColor(Color.parseColor(ColorText));
-                        //保存颜色
-                        SharedPreferences.Editor editor = getSharedPreferences(SETTINGS_SAVE, MODE_WORLD_WRITEABLE).edit();
-                        editor.putString("ColorText", ColorText);
-                        editor.commit();
-                        if (stopService(intent)) startService(intent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-                    }
-                })
-                .setNegativeButton(getString(R.string.dialog_color_cancle), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .create();
+        switch (item.getItemId()) {
+            case R.id.action_about: {
+                //View view_about = LayoutInflater.from(this).inflate(R.layout.about_view, null);
+                new Dialog(this, "呵呵", "A test！！！").show();
+                break;
+            }
+            case R.id.action_exit: {
+                finish();
+                break;
+            }
+            case R.id.action_settings: {
+                Intent intent_setting = new Intent(this, MeterSetting.class);
+                startActivity(intent_setting);
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
     }
 }

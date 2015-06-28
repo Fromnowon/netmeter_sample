@@ -26,4 +26,12 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.kyleduo.switchbutton:library:1.2.8'
     compile 'org.adw.library:discrete-seekbar:1.0.0'
+    compile project(":ColorPickerPreference")
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
+        // exclusion is not necessary, but generally a good idea.
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+    compile 'com.nineoldandroids:library:2.4.+'
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    compile 'com.nispok:snackbar:2.10.+'
 }

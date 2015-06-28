@@ -46,23 +46,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:paddingLeft="10dp" />
+                    android:padding="10dp" />
             </RelativeLayout>
 
-            <!--<View
+            <View
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:layout_below="@+id/set_color"
+                android:layout_below="@+id/netMeter"
                 android:layout_marginTop="20dp"
                 android:background="?android:attr/listDivider"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp" />-->
+                android:paddingRight="20dp" />
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="性能"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="bold" />
@@ -86,10 +86,19 @@
                     android:entries="@array/reflashtime"></Spinner>
             </LinearLayout>
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/reflashtime"
+                android:layout_marginTop="20dp"
+                android:background="?android:attr/listDivider"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="外观"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="bold" />
@@ -97,7 +106,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp">
 
@@ -130,8 +139,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:paddingTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -152,35 +162,6 @@
                     android:id="@+id/set_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="关于"
-                android:textColor="@android:color/holo_green_dark"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="作者：zzh" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="版本：1.0" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
