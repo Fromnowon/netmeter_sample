@@ -1,168 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_layout"
     android:fitsSystemWindows="true">
 
-    <ScrollView
-        android:id="@+id/scrollview0"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/layout_0"
+        <RelativeLayout
+            android:id="@+id/fragment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
+            android:gravity="center"
+            >
+            <!--<fragment
+                android:name="com.netmeter.like.netmeter.my_fragmments.Fragment_index"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="开关"
-                android:textColor="@android:color/holo_green_dark"
-                android:textStyle="bold" />
-
-            <RelativeLayout
+                android:layout_height="match_parent"
+                android:id="@+id/fragment0"/>
+            <fragment
+                android:name="com.netmeter.like.netmeter.my_fragmments.Fragment_MeterSetting"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent"
+                android:id="@+id/fragment1"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="服务状态：" />
-
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/netMeter"
-                    style="@style/MaterialDesignStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:padding="10dp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/netMeter"
-                android:layout_marginTop="20dp"
-                android:background="?android:attr/listDivider"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="性能"
-                android:textColor="@android:color/holo_green_dark"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="刷新间隔：" />
-
-                <Spinner
-                    android:id="@+id/reflashtime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/reflashtime"></Spinner>
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:layout_below="@+id/reflashtime"
-                android:layout_marginTop="20dp"
-                android:background="?android:attr/listDivider"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="外观"
-                android:textColor="@android:color/holo_green_dark"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="字体颜色：" />
-
-                <TextView
-                    android:id="@+id/meterColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp" />
-
-                <LinearLayout
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@drawable/colorpicker_button">
-
-                    <ImageButton
-                        android:id="@+id/meterColor_click"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:orientation="vertical"
-                android:paddingBottom="30dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/set_text_size_string" />
-
-                <TextView
-                    android:id="@+id/text_sample"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_vertical"
-                    android:text="1024KB/s" />
-
-                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
-                    android:id="@+id/set_textsize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </RelativeLayout>
+        <!-- The navigation drawer -->
+        <ListView
+            android:id="@+id/navdrawer"
+            android:layout_width="@dimen/navdrawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@android:color/white"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:drawSelectorOnTop="false"></ListView>
+    </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

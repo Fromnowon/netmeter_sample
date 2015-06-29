@@ -1,13 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="actionBarStyle">@style/ActionBar.Solid.Example</item>
-        <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--<style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+    </style>-->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar</item>
     </style>
-    <style name="ActionBar.Solid.Example" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/MyBar</item>
+
+    <style name="ActionBar" parent="android:Widget.ActionBar">
+        <item name="android:background">#ff098173</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
+    </style>
+
+    <style name="ActionBar.TitleText" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="MaterialDesignStyle" parent="MD">

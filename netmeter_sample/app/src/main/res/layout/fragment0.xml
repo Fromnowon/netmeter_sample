@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shadow="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                shadow:z_depth="z_depth2"
+                shadow:z_depth_padding="z_depth2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview"
+                    android:gravity="center_horizontal"
+                    android:padding="20dp"
+                    android:text="主页尚在施工..."
+                    android:textSize="30sp" />
+
+            </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+            <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                shadow:z_depth="z_depth2"
+                shadow:z_depth_padding="z_depth2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview"
+                    android:gravity="center_horizontal"
+                    android:padding="20dp"
+                    android:text="看看侧边栏吧"
+                    android:textSize="30sp" />
+
+            </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+            <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                shadow:z_depth="z_depth2"
+                shadow:z_depth_padding="z_depth2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview"
+                    android:gravity="center_horizontal"
+                    android:padding="20dp"
+                    android:text="然而只有一个功能..."
+                    android:textSize="30sp" />
+
+            </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
