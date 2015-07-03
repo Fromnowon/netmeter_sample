@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="actionbar_color">#bf360c</color>
-    <color name="my_bar">#ffff8800</color>
     <color name="setting_bar">#ff098173</color>
+    <color name="my_bar_index">#ffff8800</color>
+    <color name="my_bar_setting">#ff098173</color>
+    <color name="my_bar_usage">#ff0a9eb7</color>
+    <color name="my_bar_globle">#84000000</color>
+    <color name="custom">@android:color/darker_gray</color>
 </resources>

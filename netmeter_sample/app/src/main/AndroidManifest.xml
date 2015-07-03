@@ -12,6 +12,7 @@
         <activity
             android:name="com.netmeter.like.netmeter.MainActivity"
             android:label="@string/app_name"
+            android:configChanges="screenSize|orientation"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

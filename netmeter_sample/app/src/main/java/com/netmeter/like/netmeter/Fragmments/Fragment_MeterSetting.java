@@ -252,5 +252,6 @@ public class Fragment_MeterSetting extends Fragment {
         textView_t.setTextSize(textsize);
         DiscreteSeekBar seekBar_t = (DiscreteSeekBar) getView().findViewById(R.id.set_textsize);
         seekBar_t.setProgress(pre.getInt("seekBarProgress", 50));
+
     }
 }

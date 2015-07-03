@@ -270,7 +270,12 @@ public class NetMeterService extends Service {
         Run = false;
         MyThread.interrupt();
         MyThread = null;
-        if (flag) windowManager.removeView(view);
+        //强制移除悬浮窗，抛出异常
+        try {
+            windowManager.removeView(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 }

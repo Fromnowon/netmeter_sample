@@ -6,9 +6,14 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -20,11 +25,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+
+import com.gc.materialdesign.widgets.SnackBar;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
+import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
-import com.netmeter.like.netmeter.Fragmments.Fragment_index;
+import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
+import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +50,11 @@ public class MainActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    private Fragment[] mFragments;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     private static final String SETTINGS_SAVE = "settings_save";
     int flag = 0;
+    SystemBarTintManager tintManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,30 +71,88 @@ public class MainActivity extends Activity {
                 R.layout.draweritemlayout, new String[]{"img", "title"},
                 new int[]{R.id.drawer_iv, R.id.drawer_tv});
         mDrawerList.setAdapter(adapter);
-        mFragments = new Fragment[2];
+        final Fragment fragment0 = new Fragment_Index();
+        final Fragment fragment1 = new Fragment_MeterSetting();
+        final Fragment fragment2 = new Fragment_Usage();
+        final Fragment fragment3 = new Fragment_GlobleSetting();
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left,R.animator.slide_out_right);
-        mFragments[0] = new Fragment_index();
-        mFragments[1] = new Fragment_MeterSetting();
-        fragmentTransaction.add(R.id.fragment_layout, mFragments[0], "index").commit();
+        //fragmentTransaction.add(R.id.fragment_layout, new Fragment_Index(), "index").commit();
+        //程序启动完成后全部实例化
+        fragmentTransaction
+                .add(R.id.fragment_layout, fragment0)
+                .add(R.id.fragment_layout, fragment1)
+                .add(R.id.fragment_layout, fragment2)
+                .add(R.id.fragment_layout, fragment3)
+                .show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3)
+                .commit();
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.slide_in_left,R.animator.slide_out_right);
                 switch (position) {
                     case 0: {
-                        fragmentTransaction.replace(R.id.fragment_layout, mFragments[0], "index").commit();
+                        if (flag != 0)
+                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        tintManager.setStatusBarTintResource(R.color.my_bar_index);
+                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
+                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_Index(), "index").commit();
+                        //延迟加载，解决加载卡顿问题
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentTransaction.show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).commit();
+                            }
+                        }, 100);
                         mDrawerLayout.closeDrawers();
                         flag = 0;
                         break;
                     }
                     case 1: {
-                        //fragmentTransaction.show(mFragments[1]).commit();
-                        fragmentTransaction.replace(R.id.fragment_layout, mFragments[1], "setting").commit();
+                        if (flag != 1)
+                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        tintManager.setStatusBarTintResource(R.color.my_bar_setting);
+                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
+                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_MeterSetting(), "setting").commit();
                         mDrawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentTransaction.hide(fragment0).show(fragment1).hide(fragment2).hide(fragment3).commit();
+                            }
+                        }, 100);
                         flag = 1;
+                        break;
+                    }
+                    case 2: {
+                        if (flag != 2)
+                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        tintManager.setStatusBarTintResource(R.color.my_bar_usage);
+                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_usage));
+                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_Usage(), "usage").commit();
+                        mDrawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentTransaction.hide(fragment0).hide(fragment1).show(fragment2).hide(fragment3).commit();                            }
+                        }, 100);
+                        flag = 2;
+                        break;
+                    }
+                    case 3: {
+                        if (flag != 3)
+                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        tintManager.setStatusBarTintResource(R.color.my_bar_globle);
+                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_globle));
+                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_GlobleSetting(), "globlesetting").commit();
+                        mDrawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).show(fragment3).commit();
+                            }
+                        }, 100);
+                        flag = 3;
                         break;
                     }
                 }
@@ -181,9 +252,10 @@ public class MainActivity extends Activity {
         getActionBar().setTitle("Demo");
         //getSupportActionBar().hide();
         setTranslucentStatus(true);
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.setting_bar);
+        tintManager.setStatusBarTintResource(R.color.my_bar_index);
+        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
         SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
         relativeLayout.setPadding(0, config.getPixelInsetTop(true), 0, config.getPixelInsetBottom());
@@ -203,37 +275,10 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
-        //保存当前fragment标记
-        SharedPreferences.Editor editor = getSharedPreferences(SETTINGS_SAVE, MODE_WORLD_WRITEABLE).edit();
-        editor.putInt("restore_fragment", flag).commit();
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        //恢复fragment
-        SharedPreferences pre = getSharedPreferences(SETTINGS_SAVE, MODE_WORLD_READABLE);
-        switch (pre.getInt("restore_fragment", 0)){
-            case 0:{
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new Fragment_index()).commit();
-                flag = 0;
-                break;
-            }
-            case 1:{
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_layout, new Fragment_MeterSetting()).commit();
-                flag = 1;
-                break;
-            }
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
-            return  true;
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
