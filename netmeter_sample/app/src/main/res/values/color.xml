@@ -6,5 +6,5 @@
     <color name="my_bar_setting">#ff098173</color>
     <color name="my_bar_usage">#ff0a9eb7</color>
     <color name="my_bar_globle">#84000000</color>
-    <color name="custom">@android:color/darker_gray</color>
+    <color name="custom">#ffffff</color>
 </resources>

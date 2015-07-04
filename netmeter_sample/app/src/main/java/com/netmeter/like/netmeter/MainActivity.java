@@ -4,16 +4,12 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -21,21 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-
-import com.gc.materialdesign.widgets.SnackBar;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -103,7 +96,7 @@ public class MainActivity extends Activity {
                             public void run() {
                                 fragmentTransaction.show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).commit();
                             }
-                        }, 100);
+                        }, 200);
                         mDrawerLayout.closeDrawers();
                         flag = 0;
                         break;
@@ -120,7 +113,7 @@ public class MainActivity extends Activity {
                             public void run() {
                                 fragmentTransaction.hide(fragment0).show(fragment1).hide(fragment2).hide(fragment3).commit();
                             }
-                        }, 100);
+                        }, 200);
                         flag = 1;
                         break;
                     }

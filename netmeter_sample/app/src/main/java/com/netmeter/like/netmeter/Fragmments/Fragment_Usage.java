@@ -3,11 +3,15 @@ package com.netmeter.like.netmeter.Fragmments;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.gc.materialdesign.views.ButtonFlat;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.XAxis;
@@ -38,7 +42,8 @@ import java.util.ArrayList;
 public class Fragment_Usage extends Fragment {
 
     private CombinedChart mChart;
-    private final int itemcount = 12;
+    private final int itemcount = 7;
+    RelativeLayout parent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +53,7 @@ public class Fragment_Usage extends Fragment {
         //mChart = (CombinedChart) getActivity().findViewById(R.id.usage_chart);
         mChart = new CombinedChart(getActivity());
         mChart.setDescription("");
-        mChart.setBackgroundColor(Color.WHITE);
+        //mChart.setBackgroundColor(Color.WHITE);
         mChart.setDrawGridBackground(false);
         mChart.setDrawBarShadow(false);
 
@@ -62,20 +67,25 @@ public class Fragment_Usage extends Fragment {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
 
+        //底部x轴描述
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        String[] mMonths = {"1","2","3","4","5","6","1","2","3","4","5","6"};
+        String[] mMonths = {"一","二","三","四","五","六","七"};
         CombinedData data = new CombinedData(mMonths);
 
         data.setData(generateLineData());
         data.setData(generateBarData());
         mChart.setData(data);
         mChart.invalidate();
-        RelativeLayout parent = (RelativeLayout) v.findViewById(R.id.fragment2);
+        parent = (RelativeLayout) v.findViewById(R.id.fragment2);
+        WindowManager wm = getActivity().getWindowManager();
+        mChart.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, wm.getDefaultDisplay().getHeight() / 2));
         parent.addView(mChart);
         return v;
     }
+
+
     private LineData generateLineData() {
 
         LineData d = new LineData();
@@ -85,7 +95,7 @@ public class Fragment_Usage extends Fragment {
         for (int index = 0; index < itemcount; index++)
             entries.add(new Entry(getRandom(15, 10), index));
 
-        LineDataSet set = new LineDataSet(entries, "Line DataSet");
+        LineDataSet set = new LineDataSet(entries, "数据流量");
         set.setColor(Color.rgb(240, 238, 70));
         set.setLineWidth(2.5f);
         set.setCircleColor(Color.rgb(240, 238, 70));
@@ -111,7 +121,7 @@ public class Fragment_Usage extends Fragment {
         for (int index = 0; index < itemcount; index++)
             entries.add(new BarEntry(getRandom(15, 30), index));
 
-        BarDataSet set = new BarDataSet(entries, "Bar DataSet");
+        BarDataSet set = new BarDataSet(entries, "总流量");
         set.setColor(Color.rgb(60, 220, 78));
         set.setValueTextColor(Color.rgb(60, 220, 78));
         set.setValueTextSize(10f);
@@ -120,63 +130,6 @@ public class Fragment_Usage extends Fragment {
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         return d;
-    }
-    protected ScatterData generateScatterData() {
-
-        ScatterData d = new ScatterData();
-
-        ArrayList<Entry> entries = new ArrayList<Entry>();
-
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(getRandom(20, 15), index));
-
-        ScatterDataSet set = new ScatterDataSet(entries, "Scatter DataSet");
-        set.setColor(Color.GREEN);
-        set.setScatterShapeSize(7.5f);
-        set.setDrawValues(false);
-        set.setValueTextSize(10f);
-        d.addDataSet(set);
-
-        return d;
-    }
-    protected CandleData generateCandleData() {
-
-        CandleData d = new CandleData();
-
-        ArrayList<CandleEntry> entries = new ArrayList<CandleEntry>();
-
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new CandleEntry(index, 20f, 10f, 13f, 17f));
-
-        CandleDataSet set = new CandleDataSet(entries, "Candle DataSet");
-        set.setColor(Color.rgb(80, 80, 80));
-        set.setBodySpace(0.3f);
-        set.setValueTextSize(10f);
-        set.setDrawValues(false);
-        d.addDataSet(set);
-
-        return d;
-    }
-    protected BubbleData generateBubbleData() {
-
-        BubbleData bd = new BubbleData();
-
-        ArrayList<BubbleEntry> entries = new ArrayList<BubbleEntry>();
-
-        for (int index = 0; index < itemcount; index++) {
-            float rnd = getRandom(20, 30);
-            entries.add(new BubbleEntry(index, rnd, rnd));
-        }
-
-        BubbleDataSet set = new BubbleDataSet(entries, "Bubble DataSet");
-        set.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        set.setValueTextSize(10f);
-        set.setValueTextColor(Color.WHITE);
-        set.setHighlightCircleWidth(1.5f);
-        set.setDrawValues(true);
-        bd.addDataSet(set);
-
-        return bd;
     }
     private float getRandom(float range, float startsfrom) {
         return (float) (Math.random() * range) + startsfrom;

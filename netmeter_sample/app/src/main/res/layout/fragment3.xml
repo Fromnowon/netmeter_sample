@@ -13,11 +13,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
+            <com.gc.materialdesign.views.Card
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                shadow:z_depth="z_depth1"
-                shadow:z_depth_padding="z_depth2">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -80,7 +78,7 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>
-            </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+            </com.gc.materialdesign.views.Card>
 
         </LinearLayout>
 

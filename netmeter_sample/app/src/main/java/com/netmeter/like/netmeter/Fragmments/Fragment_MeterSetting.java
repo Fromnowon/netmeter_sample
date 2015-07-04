@@ -195,7 +195,7 @@ public class Fragment_MeterSetting extends Fragment {
     }
 
     private void reflashTime() {
-        String[] flashtime = {"500ms", "1000ms", "1500ms", "2000ms"};//初始化函数中代码如下
+        String[] flashtime = {"500ms", "1000ms", "1500ms", "2000ms"};
         spinner = (Spinner) getView().findViewById(R.id.reflashtime);
         adapterTime = new ArrayAdapter<CharSequence>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, flashtime);//设置下拉框的数据适配器adapterCity
@@ -211,10 +211,8 @@ public class Fragment_MeterSetting extends Fragment {
                 editor.commit();
                 if (getActivity().stopService(intent)) getActivity().startService(intent);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
