@@ -2,16 +2,15 @@ package com.netmeter.like.netmeter.Fragmments;
 
 import android.app.Fragment;
 import android.graphics.Color;
+import android.net.TrafficStats;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.gc.materialdesign.views.ButtonFlat;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.XAxis;
@@ -19,19 +18,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.BubbleData;
-import com.github.mikephil.charting.data.BubbleDataSet;
-import com.github.mikephil.charting.data.BubbleEntry;
-import com.github.mikephil.charting.data.CandleData;
-import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.ScatterData;
-import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.netmeter.like.netmeter.R;
 
 import java.util.ArrayList;
@@ -43,11 +33,11 @@ public class Fragment_Usage extends Fragment {
 
     private CombinedChart mChart;
     private final int itemcount = 7;
-    RelativeLayout parent;
+    private RelativeLayout parent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)  {
+                             Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View v = inflater.inflate(R.layout.fragment2, container, false);
         //mChart = (CombinedChart) getActivity().findViewById(R.id.usage_chart);
@@ -71,7 +61,7 @@ public class Fragment_Usage extends Fragment {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        String[] mMonths = {"一","二","三","四","五","六","七"};
+        String[] mMonths = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         CombinedData data = new CombinedData(mMonths);
 
         data.setData(generateLineData());
@@ -85,6 +75,16 @@ public class Fragment_Usage extends Fragment {
         return v;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        TextView tv0 = (TextView) getView().findViewById(R.id.tv0);
+        TextView tv1 = (TextView) getView().findViewById(R.id.tv1);
+        tv0.setText("总流量：" + (TrafficStats.getTotalRxBytes() / 1000) / 1000.0 + "M");
+        tv1.setText("数据流量：" + (TrafficStats.getMobileRxBytes() / 1000) / 1000.0 + "M");
+
+    }
 
     private LineData generateLineData() {
 
@@ -112,6 +112,7 @@ public class Fragment_Usage extends Fragment {
 
         return d;
     }
+
     private BarData generateBarData() {
 
         BarData d = new BarData();
@@ -131,8 +132,13 @@ public class Fragment_Usage extends Fragment {
 
         return d;
     }
+
     private float getRandom(float range, float startsfrom) {
         return (float) (Math.random() * range) + startsfrom;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

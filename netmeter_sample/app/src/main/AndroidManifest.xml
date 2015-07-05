@@ -25,6 +25,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service
+            android:name="com.netmeter.like.netmeter.Services.DataUsageService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

@@ -1,11 +1,17 @@
 package com.netmeter.like.netmeter.Fragmments;
 
 import android.app.Fragment;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonRectangle;
+import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 import com.netmeter.like.netmeter.R;
 
 /**
@@ -22,5 +28,13 @@ public class Fragment_Index extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

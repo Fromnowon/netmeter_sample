@@ -4,8 +4,8 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -17,18 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
+import com.netmeter.like.netmeter.Services.DataUsageService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -43,11 +43,10 @@ public class MainActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerArrowDrawable drawerArrow;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    private static final String SETTINGS_SAVE = "settings_save";
-    int flag = 0;
-    SystemBarTintManager tintManager;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private int flag = 0;
+    private SystemBarTintManager tintManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,13 @@ public class MainActivity extends Activity {
         initShow();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        //启动流量统计服务
+        Intent intent = new Intent(this, DataUsageService.class);
+        startService(intent);
     }
+
+
 
     private void initShow() {
         SimpleAdapter adapter = new SimpleAdapter(this, getData(),
@@ -274,5 +279,10 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
