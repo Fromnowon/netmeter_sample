@@ -159,6 +159,7 @@ public class MainActivity extends Activity {
     }
 
 
+
     private void initDrawer() {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -284,5 +285,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        finish();
     }
 }

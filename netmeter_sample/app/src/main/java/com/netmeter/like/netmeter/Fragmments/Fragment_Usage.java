@@ -1,15 +1,27 @@
 package com.netmeter.like.netmeter.Fragmments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.TrafficStats;
+import android.os.Binder;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
@@ -22,7 +34,9 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 import com.netmeter.like.netmeter.R;
+import com.netmeter.like.netmeter.Services.DataUsageService;
 
 import java.util.ArrayList;
 
@@ -34,12 +48,24 @@ public class Fragment_Usage extends Fragment {
     private CombinedChart mChart;
     private final int itemcount = 7;
     private RelativeLayout parent;
+    private View v;
+    private float total, wifi, mobile;
+    private DataUsageDB db;
+    private Cursor mCursor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment2, container, false);
+        v = inflater.inflate(R.layout.fragment2, container, false);
+        IntentFilter filter = new IntentFilter("com.netmeter.like.netmeter.TRAFFIC_DATA");
+        getActivity().registerReceiver(myReceiver, filter);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         //mChart = (CombinedChart) getActivity().findViewById(R.id.usage_chart);
         mChart = new CombinedChart(getActivity());
         mChart.setDescription("");
@@ -72,19 +98,35 @@ public class Fragment_Usage extends Fragment {
         WindowManager wm = getActivity().getWindowManager();
         mChart.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, wm.getDefaultDisplay().getHeight() / 2));
         parent.addView(mChart);
-        return v;
+        //更新绘图
+        TextView tv0 = (TextView) v.findViewById(R.id.tv0);
+        TextView tv1 = (TextView) v.findViewById(R.id.tv1);
+        TextView tv2 = (TextView) v.findViewById(R.id.tv2);
+        tv0.setText("总流量：" + total + " M");
+        tv1.setText("无线：" + wifi + " M");
+        tv2.setText("数据：" + mobile + " M");
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
-        TextView tv0 = (TextView) getView().findViewById(R.id.tv0);
-        TextView tv1 = (TextView) getView().findViewById(R.id.tv1);
-        tv0.setText("总流量：" + (TrafficStats.getTotalRxBytes() / 1000) / 1000.0 + "M");
-        tv1.setText("数据流量：" + (TrafficStats.getMobileRxBytes() / 1000) / 1000.0 + "M");
+    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context arg0, Intent intent) {
+            //此时已数据库已更新数据库
+            initData();
 
+        }
+    };
+
+    public void initData(){
+        db = new DataUsageDB(getActivity());
+        mCursor = db.select();
+        mCursor.moveToLast();
+        total = mCursor.getFloat(6);
+        wifi = mCursor.getFloat(7);
+        mobile = mCursor.getFloat(8);
+        mCursor.close();
     }
+
 
     private LineData generateLineData() {
 
@@ -92,8 +134,9 @@ public class Fragment_Usage extends Fragment {
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(getRandom(15, 10), index));
+        for (int index = 1; index < itemcount; index++)
+            entries.add(new Entry(0 , index));
+        entries.add(new Entry(mobile, 0));
 
         LineDataSet set = new LineDataSet(entries, "数据流量");
         set.setColor(Color.rgb(240, 238, 70));
@@ -119,8 +162,9 @@ public class Fragment_Usage extends Fragment {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
-        for (int index = 0; index < itemcount; index++)
-            entries.add(new BarEntry(getRandom(15, 30), index));
+        for (int index = 1; index < itemcount; index++)
+            entries.add(new BarEntry(0, index));
+        entries.add(new BarEntry(total, 0));
 
         BarDataSet set = new BarDataSet(entries, "总流量");
         set.setColor(Color.rgb(60, 220, 78));
@@ -133,12 +177,9 @@ public class Fragment_Usage extends Fragment {
         return d;
     }
 
-    private float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getActivity().unregisterReceiver(myReceiver);
     }
 }

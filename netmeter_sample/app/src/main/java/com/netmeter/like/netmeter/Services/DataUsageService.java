@@ -1,11 +1,15 @@
 package com.netmeter.like.netmeter.Services;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.TrafficStats;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.netmeter.like.netmeter.DataBase.DataUsageDB;
@@ -16,7 +20,8 @@ import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 public class DataUsageService extends Service {
     private DataUsageDB db;
     private Cursor mCursor;
-    private float a,b,c;
+    private float a, b, c;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,19 +29,25 @@ public class DataUsageService extends Service {
         每一次启动服务，就往数据库写一次数据
          */
         db = new DataUsageDB(this);
-        mCursor = db.select();
+        float tmp =  TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes();
+        float tmp0 = TrafficStats.getMobileRxBytes() - TrafficStats.getMobileTxBytes();
 
-        a = (float) (((TrafficStats.getTotalRxBytes()) / 1000)/1000.0);
-        b = (float) (((TrafficStats.getTotalRxBytes() - TrafficStats.getMobileRxBytes()) / 1000)/1000.0);
-        c = (float) (((TrafficStats.getMobileRxBytes()) / 1000)/1000.0);
+        a = (float) Math.round(((tmp / 1024) / 1024)*100)/100;
+        b = (float) Math.round((((tmp - tmp0) / 1024) / 1024)*100)/100;
+        c = (float) Math.round(((tmp0 / 1024) / 1024)*100)/100;
         db.insert(a, b, c);
-        mCursor.close();
+
+        //通知模块已更新数据库
+        Intent it=new Intent("com.netmeter.like.netmeter.TRAFFIC_DATA");
+        sendBroadcast(it);
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
         return new UsageBinder();
     }
+
     public class UsageBinder extends Binder {
         public DataUsageService getService() {
             // Return this instance of service so clients can call public methods
@@ -44,10 +55,14 @@ public class DataUsageService extends Service {
         }
     }
 
-    public void fun(){
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
+    public void fun() {
+        Log.v("null", "fun被调用了");
+    }
 
     /*public void delete(){
         if (BOOK_ID == 0) {
