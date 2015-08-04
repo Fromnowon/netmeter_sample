@@ -32,7 +32,6 @@ public class Fragment_Index extends Fragment {
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();

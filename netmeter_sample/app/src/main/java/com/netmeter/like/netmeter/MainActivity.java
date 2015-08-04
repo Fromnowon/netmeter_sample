@@ -58,10 +58,10 @@ public class MainActivity extends Activity {
         mDrawerToggle.syncState();
 
         //启动流量统计服务
-        Intent intent = new Intent(this, DataUsageService.class);
-        startService(intent);
-    }
 
+        //Intent intent = new Intent(this, DataUsageService.class);
+        //startService(intent);
+    }
 
 
     private void initShow() {
@@ -75,8 +75,7 @@ public class MainActivity extends Activity {
         final Fragment fragment3 = new Fragment_GlobleSetting();
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.add(R.id.fragment_layout, new Fragment_Index(), "index").commit();
-        //程序启动完成后全部实例化
+        //程序启动完成后全部实例化。实测并没有用
         fragmentTransaction
                 .add(R.id.fragment_layout, fragment0)
                 .add(R.id.fragment_layout, fragment1)
@@ -132,8 +131,9 @@ public class MainActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).show(fragment2).hide(fragment3).commit();                            }
-                        }, 100);
+                                fragmentTransaction.hide(fragment0).hide(fragment1).show(fragment2).hide(fragment3).commit();
+                            }
+                        }, 200);
                         flag = 2;
                         break;
                     }
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
                             public void run() {
                                 fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).show(fragment3).commit();
                             }
-                        }, 100);
+                        }, 200);
                         flag = 3;
                         break;
                     }
@@ -157,7 +157,6 @@ public class MainActivity extends Activity {
             }
         });
     }
-
 
 
     private void initDrawer() {

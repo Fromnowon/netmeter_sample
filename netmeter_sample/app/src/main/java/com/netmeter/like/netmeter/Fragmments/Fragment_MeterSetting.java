@@ -17,13 +17,16 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.kyleduo.switchbutton.SwitchButton;
 import com.netmeter.like.netmeter.R;
 import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
+
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
+
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 /**
@@ -48,6 +51,7 @@ public class Fragment_MeterSetting extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment1, container, false);
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -211,6 +215,7 @@ public class Fragment_MeterSetting extends Fragment {
                 editor.commit();
                 if (getActivity().stopService(intent)) getActivity().startService(intent);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -235,9 +240,7 @@ public class Fragment_MeterSetting extends Fragment {
     }
 
     private void loadSettings() {
-        //获得SharedPreferences实例
         SharedPreferences pre = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_READABLE);
-        //从SharedPreferences中获得内容
         String NetMeter = pre.getString("NetMeter", "");
         ColorText = pre.getString("ColorText", "#FFFFFF");
         aSwitch = (SwitchButton) getView().findViewById(R.id.netMeter);
