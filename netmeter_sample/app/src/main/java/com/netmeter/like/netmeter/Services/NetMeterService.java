@@ -43,6 +43,7 @@ public class NetMeterService extends Service {
 
     private Boolean enableMove;
     private Boolean showUpload;
+    private Boolean autohide;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -140,12 +141,26 @@ public class NetMeterService extends Service {
                         }
                         //啥都没有
                         else {
-                            linearLayout1.setVisibility(View.GONE);
-                            linearLayout2.setVisibility(View.GONE);
-                            line.setVisibility(View.GONE);
-                            if (flag) {
-                                windowManager.removeView(view);
-                                flag = false;
+                            if (autohide) {
+                                linearLayout1.setVisibility(View.GONE);
+                                linearLayout2.setVisibility(View.GONE);
+                                line.setVisibility(View.GONE);
+                                if (flag) {
+                                    windowManager.removeView(view);
+                                    flag = false;
+                                }
+                            } else {
+                                d = 0;
+                                unit = "B/s";
+                                _d = 0;
+                                _unit = "B/s";
+                                linearLayout1.setVisibility(View.VISIBLE);
+                                linearLayout2.setVisibility(View.VISIBLE);
+                                line.setVisibility(View.VISIBLE);
+                                if (!flag) {
+                                    windowManager.addView(view, layoutParams);
+                                    flag = true;
+                                }
                             }
                         }
                         textView.setText("" + d + unit);
@@ -233,7 +248,8 @@ public class NetMeterService extends Service {
         textColorTmp = pre.getString("ColorText", "#FFFFFF");
         textSize = pre.getFloat("text_size", 15);
         enableMove = pre.getBoolean("EnableMove", true);
-        showUpload = pre.getBoolean("ShowUpload", true);
+        showUpload = pre.getBoolean("show_upload_speed", true);
+        autohide = pre.getBoolean("auto_hide", true);
     }
 
     private void onMove() {
