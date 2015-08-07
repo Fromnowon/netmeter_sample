@@ -67,7 +67,7 @@ public class Fragment_MeterSetting extends Fragment {
     private void setSeekBar() {
         seekBar = (DiscreteSeekBar) getView().findViewById(R.id.set_textsize);
         seekBar.setMax(100);
-        seekBar.setIndicatorPopupEnabled(false);
+        seekBar.setIndicatorPopupEnabled(true);
         seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int progress, boolean b) {
@@ -117,13 +117,9 @@ public class Fragment_MeterSetting extends Fragment {
                 //更新预览textview
                 textView2 = (TextView) getView().findViewById(R.id.text_sample);
                 textView2.setTextSize(textSize);
-
-                //获得编辑器
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
-                //添加到编辑器
                 editor.putFloat("text_size", textSize);
                 editor.putInt("seekBarProgress", seekBar.getProgress());
-                //提交编辑器内容
                 editor.commit();
                 //重启服务以应用更改
                 if (getActivity().stopService(intent)) getActivity().startService(intent);

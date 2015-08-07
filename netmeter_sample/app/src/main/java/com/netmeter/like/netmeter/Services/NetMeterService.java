@@ -82,11 +82,7 @@ public class NetMeterService extends Service {
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         layoutParams.x = layoutParams.y = 0;
         windowManager.addView(view, layoutParams);
-
-        //一些初始化设置
-        if (enableMove) {
-            onMove();
-        }
+        onMove();
 
         final Handler tempHandler = new Handler() {
             long t, _t, t1 = 0, _t1 = 0, t2, _t2;
@@ -104,8 +100,12 @@ public class NetMeterService extends Service {
                         if (t > 512 && t1 != 0 && _t < 512) {
                             change(t);
                             linearLayout1.setVisibility(View.VISIBLE);
-                            linearLayout2.setVisibility(View.GONE);
-                            line.setVisibility(View.GONE);
+                            if (showUpload) {
+                                _d = 0;
+                                _unit = "B/s";
+                                linearLayout2.setVisibility(View.VISIBLE);
+                            } else linearLayout2.setVisibility(View.GONE);
+                            //line.setVisibility(View.GONE);
                             if (!flag) {
                                 windowManager.addView(view, layoutParams);
                                 flag = true;
@@ -118,9 +118,8 @@ public class NetMeterService extends Service {
                             linearLayout1.setVisibility(View.VISIBLE);
                             if (showUpload) {
                                 linearLayout2.setVisibility(View.VISIBLE);
-                            }
-                            //line.setVisibility(View.VISIBLE);
-                            //line.setBackgroundColor(Color.parseColor(line_color.toString()));
+                            } else linearLayout2.setVisibility(View.GONE);
+                            //line.setVisibility(View.GONE);
                             if (!flag) {
                                 windowManager.addView(view, layoutParams);
                                 flag = true;
@@ -129,11 +128,15 @@ public class NetMeterService extends Service {
                         //无下载有上传
                         else if (t < 512 && _t > 512 && _t1 != 0) {
                             change0(_t);
-                            linearLayout1.setVisibility(View.GONE);
+                            if (!autohide) {
+                                d = 0;
+                                unit = "B/s";
+                                linearLayout1.setVisibility(View.VISIBLE);
+                            } else linearLayout1.setVisibility(View.GONE);
                             if (showUpload) {
                                 linearLayout2.setVisibility(View.VISIBLE);
-                            }
-                            line.setVisibility(View.GONE);
+                            } else linearLayout2.setVisibility(View.GONE);
+                            //line.setVisibility(View.GONE);
                             if (!flag) {
                                 windowManager.addView(view, layoutParams);
                                 flag = true;
@@ -144,7 +147,7 @@ public class NetMeterService extends Service {
                             if (autohide) {
                                 linearLayout1.setVisibility(View.GONE);
                                 linearLayout2.setVisibility(View.GONE);
-                                line.setVisibility(View.GONE);
+                                //line.setVisibility(View.GONE);
                                 if (flag) {
                                     windowManager.removeView(view);
                                     flag = false;
@@ -155,8 +158,9 @@ public class NetMeterService extends Service {
                                 _d = 0;
                                 _unit = "B/s";
                                 linearLayout1.setVisibility(View.VISIBLE);
-                                linearLayout2.setVisibility(View.VISIBLE);
-                                line.setVisibility(View.VISIBLE);
+                                if (showUpload) linearLayout2.setVisibility(View.VISIBLE);
+                                else linearLayout2.setVisibility(View.GONE);
+                                //line.setVisibility(View.VISIBLE);
                                 if (!flag) {
                                     windowManager.addView(view, layoutParams);
                                     flag = true;
