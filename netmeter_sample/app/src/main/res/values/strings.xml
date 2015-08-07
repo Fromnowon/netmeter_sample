@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MY NETMETER</string>
+    <string name="app_name">Demo</string>
     <string name="app_description">Just a test!</string>
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>

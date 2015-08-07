@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.netmeter.like.netmeter.R;
@@ -62,6 +64,28 @@ public class Fragment_MeterSetting extends Fragment {
         reflashTime();
         setColor();
         FloatWin();
+    }
+
+    public void sendBroadcast_custum(String a, String param, String type, Object b){
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        Intent intent = new Intent(a);
+        switch (type){
+            case "float":{
+                intent.putExtra(param, (float)b);
+                break;
+            }
+            case "int":{
+                intent.putExtra(param, (int)b);
+                break;
+            }
+            case "String":{
+                intent.putExtra(param, (String)b);
+                break;
+            }
+            default:
+                break;
+        }
+        lbm.sendBroadcast(intent);
     }
 
     private void setSeekBar() {
@@ -121,8 +145,7 @@ public class Fragment_MeterSetting extends Fragment {
                 editor.putFloat("text_size", textSize);
                 editor.putInt("seekBarProgress", seekBar.getProgress());
                 editor.commit();
-                //重启服务以应用更改
-                if (getActivity().stopService(intent)) getActivity().startService(intent);
+                sendBroadcast_custum("com.like.CHANGETEXTSIZE", "textsize", "float", textSize);
             }
         });
     }
@@ -163,8 +186,6 @@ public class Fragment_MeterSetting extends Fragment {
     private void colorPicker() {
         //新版本拾色器
         mAlertDialog = new ColorPickerDialog(getActivity(), Color.parseColor(ColorText));
-        //mAlertDialog.setAlphaSliderVisible(true);
-        //mAlertDialog.setHexValueEnabled(true);
         mAlertDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {
@@ -181,7 +202,7 @@ public class Fragment_MeterSetting extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
                 editor.putString("ColorText", ColorText);
                 editor.commit();
-                if (getActivity().stopService(intent)) getActivity().startService(intent);
+                sendBroadcast_custum("com.like.SETTEXTCOLOR", "colorText", "String", ColorText);
                 mAlertDialog.dismiss();
             }
         });
@@ -209,7 +230,7 @@ public class Fragment_MeterSetting extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
                 editor.putInt("reflash_time", i);
                 editor.commit();
-                if (getActivity().stopService(intent)) getActivity().startService(intent);
+                sendBroadcast_custum("com.like.CHANGEREFLASHTIME", "reflashtime", "int", i);
             }
 
             @Override

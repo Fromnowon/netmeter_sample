@@ -26,7 +26,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/fg3_layout0">
+                        android:id="@+id/fg3_layout0"
+                        android:paddingTop="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -47,7 +48,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/fg3_layout0">
+                        android:layout_below="@+id/fg3_layout0"
+                        android:id="@+id/fg3_layout1"
+                        android:paddingTop="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -60,6 +63,29 @@
 
                         <com.rey.material.widget.CheckBox
                             android:id="@+id/auto_hide"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/fg3_layout1"
+                        android:id="@+id/fg3_layout2"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="悬浮窗可拖动"
+                            android:textSize="15sp"
+                            android:layout_centerVertical="true"/>
+
+                        <com.rey.material.widget.CheckBox
+                            android:id="@+id/enable_move"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true" />

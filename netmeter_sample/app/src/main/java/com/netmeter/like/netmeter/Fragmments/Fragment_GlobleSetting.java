@@ -22,6 +22,7 @@ public class Fragment_GlobleSetting extends Fragment {
 
     private CheckBox show_upload;
     private CheckBox auto_hide;
+    private CheckBox enable_move;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,12 +36,15 @@ public class Fragment_GlobleSetting extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         show_upload = (CheckBox) getView().findViewById(R.id.show_upload_speed);
         auto_hide = (CheckBox) getView().findViewById(R.id.auto_hide);
+        enable_move = (CheckBox) getView().findViewById(R.id.enable_move);
         //还原设置
         SharedPreferences pre = getActivity().getSharedPreferences("settings_save", Context.MODE_WORLD_READABLE);
         if (pre.getBoolean("show_upload_speed", true))
             show_upload.setCheckedImmediately(true);
         if (pre.getBoolean("auto_hide", true))
             auto_hide.setCheckedImmediately(true);
+        if (pre.getBoolean("enable_move", true))
+            enable_move.setCheckedImmediately(true);
         final SharedPreferences.Editor editor = getActivity().getSharedPreferences("settings_save", Context.MODE_WORLD_WRITEABLE).edit();
         final Intent intent = new Intent(getActivity(), NetMeterService.class);
         //上传速度的显示监听
@@ -74,6 +78,23 @@ public class Fragment_GlobleSetting extends Fragment {
                     editor.commit();
                     if (getActivity().stopService(intent)) getActivity().startService(intent);
                     Toast.makeText(getActivity(), "取消自动隐藏！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //拖动开关监听
+        enable_move.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editor.putBoolean("enable_move", true);
+                    editor.commit();
+                    if (getActivity().stopService(intent)) getActivity().startService(intent);
+                    Toast.makeText(getActivity(), "悬浮窗可拖动！", Toast.LENGTH_SHORT).show();
+                } else {
+                    editor.putBoolean("enable_move", false);
+                    editor.commit();
+                    if (getActivity().stopService(intent)) getActivity().startService(intent);
+                    Toast.makeText(getActivity(), "悬浮窗锁定位置！", Toast.LENGTH_SHORT).show();
                 }
             }
         });

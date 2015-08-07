@@ -1,7 +1,11 @@
 package com.netmeter.like.netmeter.Services;
 
+import android.annotation.TargetApi;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -10,6 +14,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netmeter.like.netmeter.R;
 
@@ -40,6 +46,8 @@ public class NetMeterService extends Service {
     private float textSize;
     private LinearLayout linearLayout1, linearLayout2;
     private View line;
+    private LocalBroadcastManager lbm;
+    private BroadcastReceiver reciever;
 
     private Boolean enableMove;
     private Boolean showUpload;
@@ -65,11 +73,14 @@ public class NetMeterService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        view = LayoutInflater.from(this).inflate(R.layout.window, null);
+
+        //接收设置消息
+        handleBC();
 
         //读取保存的设置
         readSetting();
-        //textView.setTextColor(Color.parseColor("#FFFFFF"));
-        view = LayoutInflater.from(this).inflate(R.layout.window, null);
+
         //初始化悬浮窗
         initUI();
 
@@ -226,6 +237,41 @@ public class NetMeterService extends Service {
         MyThread.start();
     }
 
+    private void handleBC() {
+        reciever = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                switch (action){
+                    case "com.like.CHANGETEXTSIZE": {
+                        textView.setTextSize(intent.getFloatExtra("textsize", textSize));
+                        Toast.makeText(getApplicationContext(),"字体大小："+intent.getFloatExtra("textsize", textSize),Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "com.like.CHANGEREFLASHTIME":{
+                        SleepTime = (intent.getIntExtra("reflashtime", 1)+1)*500;
+                        Toast.makeText(getApplicationContext(),"刷新时间："+SleepTime+"ms",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case "com.like.SETTEXTCOLOR":{
+                        textView.setTextColor(Color.parseColor(intent.getStringExtra("colorText")));
+                        Toast.makeText(getApplicationContext(),"字体颜色：#"+Integer.toHexString(Color.parseColor(intent.getStringExtra("colorText"))),Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        };
+        lbm = LocalBroadcastManager.getInstance(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.like.CHANGETEXTSIZE");
+        filter.addAction("com.like.CHANGEREFLASHTIME");
+        filter.addAction("com.like.SETTEXTCOLOR");
+        lbm.registerReceiver(reciever, filter);
+
+    }
+
     private void initUI() {
         linearLayout1 = (LinearLayout) view.findViewById(R.id.meterpart1);
         linearLayout2 = (LinearLayout) view.findViewById(R.id.meterpart2);
@@ -251,7 +297,7 @@ public class NetMeterService extends Service {
         SleepTime = (pre.getInt("reflash_time", 1) + 1) * 500;
         textColorTmp = pre.getString("ColorText", "#FFFFFF");
         textSize = pre.getFloat("text_size", 15);
-        enableMove = pre.getBoolean("EnableMove", true);
+        enableMove = pre.getBoolean("enable_move", true);
         showUpload = pre.getBoolean("show_upload_speed", true);
         autohide = pre.getBoolean("auto_hide", true);
     }
@@ -263,6 +309,8 @@ public class NetMeterService extends Service {
             @Override
             public boolean onTouch(View p1, MotionEvent p2) {
                 // TODO: Implement this method
+                //若不可拖动，则不响应
+                if (!enableMove) return true;
                 switch (p2.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         x = p2.getX();

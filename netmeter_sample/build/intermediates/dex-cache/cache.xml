@@ -2,6 +2,97 @@
 <items version="2" >
 
     <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-a73ad3d37cd8f45dbacd1d969180f2dc4087d82a.jar" />
+    </item>
+    <item
+        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/library-2.4.0-ca481533620c57f8e72d49b8d66b85552092b97c.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.github.navasmdc/MaterialDesign/1.5/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="12b228574de7977e56e41cbfb385b1463bbdb41a">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-786d928aeebaea4aa384953996d497037c348a38.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c6d79137693d494dee16372d3921f919eb724ced">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-b23ee971fd9cc8c432c10865976a962ec34e7304.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/org.adw.library/discrete-seekbar/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3e2965bae48affdd6dcd3f87cd525a988ade1250">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-7d0d039184c70b1f982ccbc07d2e8722d153a494.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.ikimuhendis/ldrawer/0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d3bec8d72ee2aa86e69f66375c31f2161b7bb324">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-bd41001e350da311314eb14edc51509f65b9c11a.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0040be6592cbfbb19a2c1e90a759278795ed2280">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-56d1324639f824f447db145f1cfdaf8145788242.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/netmeter_sample/ColorPickerPreference/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d9963181f6dcd335e1119af66df01feecc15fc86">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-aeedf4d68dcb1286187ae1e0683bf8d3429cac9e.jar" />
+    </item>
+    <item
+        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.readystatesoftware.systembartint/systembartint/1.0.3/de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287/systembartint-1.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/systembartint-1.0.3-c6c8afa88ee7dc84009773f8ed667d0ada316097.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.github.Q42/AndroidScrollingImageView/1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9eca690e13712190d1f6ae85f2e06710dab6d293">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-acc9ca566b153a02761ca6986baa567cd336ea9e.jar" />
+    </item>
+    <item
+        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.1.0/ec46f9251e1e0ee60e1b6beae8b16f2e0fdee474/MPAndroidChart-v2.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ec46f9251e1e0ee60e1b6beae8b16f2e0fdee474">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.1.0-c849c72c618921c5a00877f22dc3d2f01299cf7a.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.nispok/snackbar/2.10.10/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6d913edb6690b87ab8bb1499e0836bf9e160ca0a">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-7cd65f980261d7e0fb0d27616582de6b9205b79d.jar" />
+    </item>
+    <item
+        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.eftimoff/androidplayer/1.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f56911802af2797dfaa75f9c04f1aa83fd90475a">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-ded950a2439fdbe63eb8e8d0000b0ef171474ef6.jar" />
+    </item>
+    <item
         jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -16,34 +107,6 @@
         <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-c123cf12ba3e397130d7eea469726d60efbb54ea.jar" />
     </item>
     <item
-        jar="/Users/like/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-3ac5e0d3152c7db8183a72430c32e72e96b1a2cb.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.ikimuhendis/ldrawer/0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d3bec8d72ee2aa86e69f66375c31f2161b7bb324">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-bd41001e350da311314eb14edc51509f65b9c11a.jar" />
-    </item>
-    <item
-        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/library-2.4.0-ca481533620c57f8e72d49b8d66b85552092b97c.jar" />
-    </item>
-    <item
-        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.readystatesoftware.systembartint/systembartint/1.0.3/de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287/systembartint-1.0.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/systembartint-1.0.3-c6c8afa88ee7dc84009773f8ed667d0ada316097.jar" />
-    </item>
-    <item
         jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -51,25 +114,11 @@
         <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-fea630897803baa1861f92320dd57b76a8e7cde4.jar" />
     </item>
     <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/org.adw.library/discrete-seekbar/1.0.0/jars/classes.jar"
+        jar="/Users/like/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="3e2965bae48affdd6dcd3f87cd525a988ade1250">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-7d0d039184c70b1f982ccbc07d2e8722d153a494.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.eftimoff/androidplayer/1.0.3/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f56911802af2797dfaa75f9c04f1aa83fd90475a">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-ded950a2439fdbe63eb8e8d0000b0ef171474ef6.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-a73ad3d37cd8f45dbacd1d969180f2dc4087d82a.jar" />
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-3ac5e0d3152c7db8183a72430c32e72e96b1a2cb.jar" />
     </item>
     <item
         jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/jars/classes.jar"
@@ -77,48 +126,6 @@
         revision="22.0.1"
         sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
         <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-ed8675d601dcab8f06e8a28693890a97987c7492.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/netmeter_sample/ColorPickerPreference/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d9963181f6dcd335e1119af66df01feecc15fc86">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-aeedf4d68dcb1286187ae1e0683bf8d3429cac9e.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.github.navasmdc/MaterialDesign/1.5/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="12b228574de7977e56e41cbfb385b1463bbdb41a">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-786d928aeebaea4aa384953996d497037c348a38.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.github.rey5137/material/1.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0040be6592cbfbb19a2c1e90a759278795ed2280">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-56d1324639f824f447db145f1cfdaf8145788242.jar" />
-    </item>
-    <item
-        jar="/Users/like/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.1.0/ec46f9251e1e0ee60e1b6beae8b16f2e0fdee474/MPAndroidChart-v2.1.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="ec46f9251e1e0ee60e1b6beae8b16f2e0fdee474">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.1.0-c849c72c618921c5a00877f22dc3d2f01299cf7a.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c6d79137693d494dee16372d3921f919eb724ced">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-b23ee971fd9cc8c432c10865976a962ec34e7304.jar" />
-    </item>
-    <item
-        jar="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/exploded-aar/com.nispok/snackbar/2.10.10/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6d913edb6690b87ab8bb1499e0836bf9e160ca0a">
-        <dex dex="/Users/like/netmeter_sample/netmeter_sample/app/build/intermediates/pre-dexed/debug/classes-7cd65f980261d7e0fb0d27616582de6b9205b79d.jar" />
     </item>
 
 </items>
