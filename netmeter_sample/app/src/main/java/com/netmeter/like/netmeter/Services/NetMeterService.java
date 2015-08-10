@@ -1,6 +1,5 @@
 package com.netmeter.like.netmeter.Services;
 
-import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,12 +8,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.GradientDrawable;
 import android.net.TrafficStats;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,7 +40,7 @@ public class NetMeterService extends Service {
     static boolean Run = true;
     private TextView textView, textView0;
     private ImageView imageView, imageView0;
-    private String textColorTmp;
+    private String textColorTmp, BGColor, BGAlpha = "66";
     private Thread MyThread;
     private float textSize;
     private LinearLayout linearLayout1, linearLayout2;
@@ -258,6 +259,29 @@ public class NetMeterService extends Service {
                         Toast.makeText(getApplicationContext(),"字体颜色：#"+Integer.toHexString(Color.parseColor(intent.getStringExtra("colorText"))),Toast.LENGTH_SHORT).show();
                         break;
                     }
+                    case "com.like.CHANGEBGCOLOR":{
+                        BGColor = intent.getStringExtra("colorBG");
+                        StringBuffer s = new StringBuffer(BGColor);
+                        s.delete(1, 3);
+                        s.insert(1, BGAlpha);
+                        BGColor = s.toString();
+                        GradientDrawable bg = (GradientDrawable) view.getBackground();
+                        bg.setColor(Color.parseColor(BGColor));
+                        break;
+                    }
+                    case "com.like.CHANGEBGALPHA":{
+                        BGAlpha = intent.getStringExtra("BGAlpha");
+                        StringBuffer s = new StringBuffer(BGColor);
+                        s.delete(1, 3);
+                        s.insert(1, BGAlpha);
+                        BGColor = s.toString();
+                        GradientDrawable bg = (GradientDrawable) view.getBackground();
+                        bg.setColor(Color.parseColor(BGColor));
+                        SharedPreferences.Editor editor = getSharedPreferences("settings_save", Context.MODE_WORLD_WRITEABLE).edit();
+                        editor.putString("ColorBG_L", BGColor);
+                        editor.commit();
+                        break;
+                    }
                     default:
                         break;
                 }
@@ -268,6 +292,8 @@ public class NetMeterService extends Service {
         filter.addAction("com.like.CHANGETEXTSIZE");
         filter.addAction("com.like.CHANGEREFLASHTIME");
         filter.addAction("com.like.SETTEXTCOLOR");
+        filter.addAction("com.like.CHANGEBGCOLOR");
+        filter.addAction("com.like.CHANGEBGALPHA");
         lbm.registerReceiver(reciever, filter);
 
         //关机事件处理
@@ -306,12 +332,17 @@ public class NetMeterService extends Service {
         textView0 = (TextView) view.findViewById(R.id.traffic0);
         textView0.setTextColor(Color.parseColor(textColorTmp));
         textView0.setTextSize(textSize);
+        //读取背景颜色
+        GradientDrawable bg = (GradientDrawable) view.getBackground();
+        bg.setColor(Color.parseColor(BGColor));
     }
 
     private void readSetting() {
         SharedPreferences pre = getSharedPreferences(TMP_SAVED, MODE_WORLD_READABLE);
         SleepTime = (pre.getInt("reflash_time", 1) + 1) * 500;
         textColorTmp = pre.getString("ColorText", "#FFFFFF");
+        //切记，取8位
+        BGColor = pre.getString("ColorBG_L", "#66e3e3e3");
         textSize = pre.getFloat("text_size", 15);
         enableMove = pre.getBoolean("enable_move", true);
         showUpload = pre.getBoolean("show_upload_speed", true);

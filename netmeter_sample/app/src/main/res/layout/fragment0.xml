@@ -7,8 +7,8 @@
 
     <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
         android:id="@+id/index_pg"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="#ffff8800"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

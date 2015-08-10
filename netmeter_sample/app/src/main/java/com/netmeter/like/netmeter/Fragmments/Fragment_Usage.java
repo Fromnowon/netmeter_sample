@@ -1,27 +1,19 @@
 package com.netmeter.like.netmeter.Fragmments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.TrafficStats;
-import android.os.Binder;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
@@ -36,7 +28,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 import com.netmeter.like.netmeter.R;
-import com.netmeter.like.netmeter.Services.DataUsageService;
 
 import java.util.ArrayList;
 

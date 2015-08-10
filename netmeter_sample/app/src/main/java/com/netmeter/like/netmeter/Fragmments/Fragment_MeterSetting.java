@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,18 +33,20 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
  */
 public class Fragment_MeterSetting extends Fragment {
 
-    private DiscreteSeekBar seekBar;
+    private DiscreteSeekBar seekBar, seekBar0;
     private Spinner spinner;
     private static final String SETTINGS_SAVE = "settings_save";
-    Intent intent;
+    private Intent intent;
     private float textSize;
-    ColorPickerDialog mAlertDialog;
+    private int alpha;
+    private ColorPickerDialog mAlertDialog, mAlertDialog0;
     private SwitchButton aSwitch;
     private TextView textView, textView1, textView2;
-    private ImageButton imageButton;
-    private String ColorText;
+    private ImageButton imageButton, imageButton0;
+    private String ColorText, ColorBG, alpha_hex;
     private ArrayAdapter<CharSequence> adapterTime = null;
     private SystemBarTintManager tintManager;
+    private SharedPreferences.Editor editor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,27 +59,29 @@ public class Fragment_MeterSetting extends Fragment {
         super.onActivityCreated(savedInstanceState);
         intent = new Intent(getActivity(), NetMeterService.class);
         tintManager = new SystemBarTintManager(getActivity());
+        editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
         loadSettings();
-        setSeekBar();
+        setTextSize();
         colorPicker();
         reflashTime();
         setColor();
+        setAlpha();
     }
 
-    public void sendBroadcast_custum(String a, String param, String type, Object b){
+    public void sendBroadcast_custum(String action, String param, String type, Object extra) {
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-        Intent intent = new Intent(a);
-        switch (type){
-            case "float":{
-                intent.putExtra(param, (float)b);
+        Intent intent = new Intent(action);
+        switch (type) {
+            case "float": {
+                intent.putExtra(param, (float) extra);
                 break;
             }
-            case "int":{
-                intent.putExtra(param, (int)b);
+            case "int": {
+                intent.putExtra(param, (int) extra);
                 break;
             }
-            case "String":{
-                intent.putExtra(param, (String)b);
+            case "String": {
+                intent.putExtra(param, (String) extra);
                 break;
             }
             default:
@@ -85,10 +90,10 @@ public class Fragment_MeterSetting extends Fragment {
         lbm.sendBroadcast(intent);
     }
 
-    private void setSeekBar() {
+    private void setTextSize() {
         seekBar = (DiscreteSeekBar) getView().findViewById(R.id.set_textsize);
         seekBar.setMax(100);
-        seekBar.setIndicatorPopupEnabled(true);
+        seekBar.setIndicatorPopupEnabled(false);
         seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int progress, boolean b) {
@@ -138,7 +143,6 @@ public class Fragment_MeterSetting extends Fragment {
                 //更新预览textview
                 textView2 = (TextView) getView().findViewById(R.id.text_sample);
                 textView2.setTextSize(textSize);
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
                 editor.putFloat("text_size", textSize);
                 editor.putInt("seekBarProgress", seekBar.getProgress());
                 editor.commit();
@@ -150,6 +154,7 @@ public class Fragment_MeterSetting extends Fragment {
     private void colorPicker() {
         //新版本拾色器
         mAlertDialog = new ColorPickerDialog(getActivity(), Color.parseColor(ColorText));
+        mAlertDialog0 = new ColorPickerDialog(getActivity(), Color.parseColor(ColorBG));
         mAlertDialog.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {
@@ -162,11 +167,24 @@ public class Fragment_MeterSetting extends Fragment {
                 textView1.setTextColor(Color.parseColor(ColorText));
                 imageButton.setBackgroundColor(Color.parseColor(ColorText));
                 //保存颜色
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
                 editor.putString("ColorText", ColorText);
                 editor.commit();
                 sendBroadcast_custum("com.like.SETTEXTCOLOR", "colorText", "String", ColorText);
                 mAlertDialog.dismiss();
+            }
+        });
+        mAlertDialog0.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int color) {
+                StringBuffer s = new StringBuffer(Integer.toHexString(color));
+                //存储8位
+                editor.putString("ColorBG_L", s.insert(0, "#").toString());
+                sendBroadcast_custum("com.like.CHANGEBGCOLOR", "colorBG", "String", s.toString());
+                s.delete(1, 3);
+                ColorBG = s.toString();
+                imageButton0.setBackgroundColor(Color.parseColor(ColorBG));
+                editor.putString("ColorBG", ColorBG);
+                editor.commit();
             }
         });
     }
@@ -183,7 +201,6 @@ public class Fragment_MeterSetting extends Fragment {
         this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
                 editor.putInt("reflash_time", i);
                 editor.commit();
                 sendBroadcast_custum("com.like.CHANGEREFLASHTIME", "reflashtime", "int", i);
@@ -198,9 +215,10 @@ public class Fragment_MeterSetting extends Fragment {
     private void setColor() {
         textView = (TextView) getView().findViewById(R.id.meterColor);
         imageButton = (ImageButton) getView().findViewById(R.id.meterColor_click);
+        imageButton0 = (ImageButton) getView().findViewById(R.id.bgColor_click);
         textView.setText(ColorText);
         imageButton.setBackgroundColor(Color.parseColor(ColorText));
-        //textView.setTextColor(Color.parseColor(ColorText));
+        imageButton0.setBackgroundColor(Color.parseColor(ColorBG));
         textView1 = (TextView) getView().findViewById(R.id.text_sample);
         textView1.setTextColor(Color.parseColor(ColorText));
         imageButton.setOnTouchListener(new View.OnTouchListener() {
@@ -210,17 +228,24 @@ public class Fragment_MeterSetting extends Fragment {
                 return false;
             }
         });
+        imageButton0.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mAlertDialog0.show();
+                return false;
+            }
+        });
     }
 
     private void loadSettings() {
         SharedPreferences pre = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_READABLE);
         String NetMeter = pre.getString("NetMeter", "");
         ColorText = pre.getString("ColorText", "#FFFFFF");
+        ColorBG = pre.getString("ColorBG", "#e3e3e3");
         aSwitch = (SwitchButton) getView().findViewById(R.id.netMeter);
         if (NetMeter.equals("ON")) {
             aSwitch.setChecked(true);
-        }
-        else {
+        } else {
             aSwitch.setChecked(false);
         }
 
@@ -230,6 +255,34 @@ public class Fragment_MeterSetting extends Fragment {
         textView_t.setTextSize(textsize);
         DiscreteSeekBar seekBar_t = (DiscreteSeekBar) getView().findViewById(R.id.set_textsize);
         seekBar_t.setProgress(pre.getInt("seekBarProgress", 50));
+        alpha = pre.getInt("BGAlpha_PG", 50);
 
+    }
+
+    private void setAlpha() {
+        seekBar0 = (DiscreteSeekBar) getView().findViewById(R.id.set_alpha);
+        seekBar0.setProgress(alpha);
+        seekBar0.setMax(100);
+        seekBar0.setIndicatorPopupEnabled(false);
+        seekBar0.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar discreteSeekBar, int i, boolean b) {
+                alpha = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar discreteSeekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar discreteSeekBar) {
+                editor.putInt("BGAlpha_PG", alpha);
+                editor.commit();
+                alpha_hex = Integer.toHexString((int) ((alpha / 100f) * 255));
+                if (alpha_hex.length() == 1) alpha_hex = "0"+alpha_hex;
+                sendBroadcast_custum("com.like.CHANGEBGALPHA", "BGAlpha", "String", alpha_hex);
+            }
+        });
     }
 }

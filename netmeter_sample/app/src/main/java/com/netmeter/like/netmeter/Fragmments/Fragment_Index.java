@@ -3,12 +3,14 @@ package com.netmeter.like.netmeter.Fragmments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -24,13 +26,13 @@ import com.rey.material.widget.Button;
  */
 public class Fragment_Index extends Fragment {
 
-    private Button test_btn;
-    LocalBroadcastManager lbm;
+    private ButtonFlat test;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment0, container, false);
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

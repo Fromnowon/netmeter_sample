@@ -1,16 +1,12 @@
 package com.netmeter.like.netmeter.Services;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.TrafficStats;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 
