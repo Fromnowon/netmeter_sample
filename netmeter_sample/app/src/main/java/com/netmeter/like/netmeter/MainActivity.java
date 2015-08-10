@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,17 +20,23 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
+import com.gitonway.lee.niftynotification.lib.Effects;
+import com.gitonway.lee.niftynotification.lib.NiftyNotificationView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
 import com.netmeter.like.netmeter.Services.DataUsageService;
+import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -58,7 +66,6 @@ public class MainActivity extends Activity {
         mDrawerToggle.syncState();
 
         //启动流量统计服务
-
         //Intent intent = new Intent(this, DataUsageService.class);
         //startService(intent);
     }
@@ -93,7 +100,6 @@ public class MainActivity extends Activity {
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_index);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
-                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_Index(), "index").commit();
                         //延迟加载，解决加载卡顿问题
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -108,9 +114,59 @@ public class MainActivity extends Activity {
                     case 1: {
                         if (flag != 1)
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                        tintManager.setStatusBarTintResource(R.color.my_bar_setting);
-                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
-                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_MeterSetting(), "setting").commit();
+                        final SwitchButton btn = (SwitchButton) findViewById(R.id.netMeter);
+                        if (btn.isChecked()) {
+                            tintManager.setStatusBarTintResource(R.color.my_bar_setting);
+                            getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
+                        } else {
+                            tintManager.setStatusBarTintResource(R.color.colorAccent);
+                            getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
+                        }
+                        final SharedPreferences.Editor editor = getSharedPreferences("settings_save", Context.MODE_WORLD_WRITEABLE).edit();
+                        btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (isChecked) {
+                                    startService(new Intent(getApplicationContext(), NetMeterService.class));
+                                    editor.putString("NetMeter", "ON");
+                                    tintManager.setStatusBarTintResource(R.color.my_bar_setting);
+                                    getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
+                                    com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
+                                            .setAnimDuration(700)
+                                            .setDispalyDuration(1000)
+                                            .setBackgroundColor("#ff098173")
+                                            .setTextColor("#ffffffff")
+                                            .setIconBackgroundColor("#ff098173")
+                                            .setTextPadding(12)
+                                            .setViewHeight(40)
+                                            .setTextLines(2)
+                                            .setTextGravity(Gravity.CENTER)
+                                            .build();
+                                    NiftyNotificationView.build(MainActivity.this, "悬浮窗开启！", Effects.jelly, R.id.mLayout, cfg)
+                                            .show();
+                                }
+                                else {
+                                    stopService(new Intent(getApplicationContext(), NetMeterService.class));
+                                    editor.putString("NetMeter", "OFF");
+                                    tintManager.setStatusBarTintResource(R.color.colorAccent);
+                                    getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
+                                    com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
+                                            .setAnimDuration(700)
+                                            .setDispalyDuration(1000)
+                                            .setBackgroundColor("#ff0000")
+                                            .setTextColor("#ffffffff")
+                                            .setIconBackgroundColor("#ff0000")
+                                            .setTextPadding(12)
+                                            .setViewHeight(40)
+                                            .setTextLines(2)
+                                            .setTextGravity(Gravity.CENTER)
+                                            .build();
+                                    NiftyNotificationView.build(MainActivity.this, "悬浮窗关闭！", Effects.jelly, R.id.mLayout, cfg)
+                                            .show();
+                                }
+                                editor.commit();
+                            }
+                        });
                         mDrawerLayout.closeDrawers();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -126,7 +182,6 @@ public class MainActivity extends Activity {
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_usage);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_usage));
-                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_Usage(), "usage").commit();
                         mDrawerLayout.closeDrawers();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -142,7 +197,6 @@ public class MainActivity extends Activity {
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_globle);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_globle));
-                        //fragmentTransaction.replace(R.id.fragment_layout, new Fragment_GlobleSetting(), "globlesetting").commit();
                         mDrawerLayout.closeDrawers();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -248,7 +302,6 @@ public class MainActivity extends Activity {
         //取消actionbar阴影
         //getSupportActionBar().setElevation(0);
         getActionBar().setTitle("Demo");
-        //getSupportActionBar().hide();
         setTranslucentStatus(true);
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);

@@ -7,6 +7,5 @@
     <color name="my_bar_usage">#ff0a9eb7</color>
     <color name="my_bar_globle">#84000000</color>
     <color name="custom">#ffffff</color>
-    <color name="colorAccent">#FF00E5FF</color>
-    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorAccent">#ff0000</color>
 </resources>

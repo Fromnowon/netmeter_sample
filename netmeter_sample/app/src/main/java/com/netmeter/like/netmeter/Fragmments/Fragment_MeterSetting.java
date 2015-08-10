@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -14,18 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.kyleduo.switchbutton.SwitchButton;
 import com.netmeter.like.netmeter.R;
 import com.netmeter.like.netmeter.Services.NetMeterService;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
@@ -47,6 +43,7 @@ public class Fragment_MeterSetting extends Fragment {
     private ImageButton imageButton;
     private String ColorText;
     private ArrayAdapter<CharSequence> adapterTime = null;
+    private SystemBarTintManager tintManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,12 +55,12 @@ public class Fragment_MeterSetting extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         intent = new Intent(getActivity(), NetMeterService.class);
+        tintManager = new SystemBarTintManager(getActivity());
         loadSettings();
         setSeekBar();
         colorPicker();
         reflashTime();
         setColor();
-        FloatWin();
     }
 
     public void sendBroadcast_custum(String a, String param, String type, Object b){
@@ -150,39 +147,6 @@ public class Fragment_MeterSetting extends Fragment {
         });
     }
 
-    private void FloatWin() {
-        aSwitch = (SwitchButton) getView().findViewById(R.id.netMeter);
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    getActivity().startService(intent);
-                    //Toast.makeText(MainActivity.this, "悬浮窗开启！", Toast.LENGTH_SHORT).show();
-                    SnackbarManager.show(
-                            Snackbar.with(getActivity())
-                                    .text("悬浮窗启动！")
-                                    .color(Color.parseColor("#ff098173"))
-                                    .actionLabel("确定")
-                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
-                                    .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
-                                    .type(SnackbarType.MULTI_LINE));
-                } else {
-                    getActivity().stopService(intent);
-                    //Toast.makeText(MainActivity.this, "悬浮窗关闭！", Toast.LENGTH_SHORT).show();
-                    SnackbarManager.show(
-                            Snackbar.with(getActivity())
-                                    .text("悬浮窗关闭！")
-                                    .color(Color.parseColor("#ffff4444"))
-                                    .actionLabel("确定")
-                                    .actionLabelTypeface(Typeface.DEFAULT_BOLD)
-                                    .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
-                                    .type(SnackbarType.MULTI_LINE));
-                }
-                saveSettings(isChecked);
-            }
-        });
-    }
-
     private void colorPicker() {
         //新版本拾色器
         mAlertDialog = new ColorPickerDialog(getActivity(), Color.parseColor(ColorText));
@@ -195,7 +159,6 @@ public class Fragment_MeterSetting extends Fragment {
                 s.insert(0, "#");
                 ColorText = s.toString();
                 textView.setText(ColorText);
-                //textView.setTextColor(Color.parseColor(ColorText));
                 textView1.setTextColor(Color.parseColor(ColorText));
                 imageButton.setBackgroundColor(Color.parseColor(ColorText));
                 //保存颜色
@@ -208,18 +171,11 @@ public class Fragment_MeterSetting extends Fragment {
         });
     }
 
-    public void saveSettings(Boolean isChecked) {
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_WRITEABLE).edit();
-        if (isChecked) editor.putString("NetMeter", "ON");
-        else editor.putString("NetMeter", "OFF");
-        editor.commit();
-    }
-
     private void reflashTime() {
         String[] flashtime = {"500ms", "1000ms", "1500ms", "2000ms"};
         spinner = (Spinner) getView().findViewById(R.id.reflashtime);
         adapterTime = new ArrayAdapter<CharSequence>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, flashtime);//设置下拉框的数据适配器adapterCity
+                android.R.layout.simple_spinner_dropdown_item, flashtime);
         this.spinner.setAdapter(adapterTime);
         final SharedPreferences pre = getActivity().getSharedPreferences(SETTINGS_SAVE, Context.MODE_WORLD_READABLE);
         //读取上一次设置
@@ -261,8 +217,12 @@ public class Fragment_MeterSetting extends Fragment {
         String NetMeter = pre.getString("NetMeter", "");
         ColorText = pre.getString("ColorText", "#FFFFFF");
         aSwitch = (SwitchButton) getView().findViewById(R.id.netMeter);
-        if (NetMeter.equals("ON")) aSwitch.setChecked(true);
-        else aSwitch.setChecked(false);
+        if (NetMeter.equals("ON")) {
+            aSwitch.setChecked(true);
+        }
+        else {
+            aSwitch.setChecked(false);
+        }
 
         float textsize = pre.getFloat("text_size", 15);
         TextView textView_t = (TextView) getView().findViewById(R.id.text_sample);
