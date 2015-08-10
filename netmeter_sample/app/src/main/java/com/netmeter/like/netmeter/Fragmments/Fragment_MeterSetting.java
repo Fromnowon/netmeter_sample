@@ -221,18 +221,16 @@ public class Fragment_MeterSetting extends Fragment {
         imageButton0.setBackgroundColor(Color.parseColor(ColorBG));
         textView1 = (TextView) getView().findViewById(R.id.text_sample);
         textView1.setTextColor(Color.parseColor(ColorText));
-        imageButton.setOnTouchListener(new View.OnTouchListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onClick(View v) {
                 mAlertDialog.show();
-                return false;
             }
         });
-        imageButton0.setOnTouchListener(new View.OnTouchListener() {
+        imageButton0.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 mAlertDialog0.show();
-                return false;
             }
         });
     }
