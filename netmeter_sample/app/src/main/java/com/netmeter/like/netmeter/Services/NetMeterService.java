@@ -24,9 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.netmeter.like.netmeter.R;
-
 import java.text.DecimalFormat;
 
 /*后台网速监控服务*/
@@ -245,6 +243,7 @@ public class NetMeterService extends Service {
                 switch (action){
                     case "com.like.CHANGETEXTSIZE": {
                         textView.setTextSize(intent.getFloatExtra("textsize", textSize));
+                        textView0.setTextSize(intent.getFloatExtra("textsize", textSize));
                         Toast.makeText(getApplicationContext(),"字体大小："+intent.getFloatExtra("textsize", textSize),Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -255,6 +254,7 @@ public class NetMeterService extends Service {
                     }
                     case "com.like.SETTEXTCOLOR":{
                         textView.setTextColor(Color.parseColor(intent.getStringExtra("colorText")));
+                        textView0.setTextColor(Color.parseColor(intent.getStringExtra("colorText")));
                         Toast.makeText(getApplicationContext(),"字体颜色：#"+Integer.toHexString(Color.parseColor(intent.getStringExtra("colorText"))),Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -270,6 +270,22 @@ public class NetMeterService extends Service {
         filter.addAction("com.like.SETTEXTCOLOR");
         lbm.registerReceiver(reciever, filter);
 
+        //关机事件处理
+        registerReceiver(shutDownRC, new IntentFilter("android.intent.action.ACTION_SHUTDOWN"));
+
+    }
+    private shutDownRC shutDownRC = new shutDownRC();
+    private class shutDownRC extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //关机时自动停止服务并更新设置
+            context.stopService(new Intent(context, NetMeterService.class));
+            SharedPreferences.Editor editor = context.getSharedPreferences("settings_save", Context.MODE_WORLD_WRITEABLE).edit();
+            editor.putString("NetMeter","OFF");
+            editor.commit();
+            Toast.makeText(context, "检测到设备关机，停止网速监控", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initUI() {
@@ -339,12 +355,13 @@ public class NetMeterService extends Service {
         Run = false;
         MyThread.interrupt();
         MyThread = null;
-        //强制移除悬浮窗，抛出异常
+        //强制移除悬浮窗
         try {
             windowManager.removeView(view);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        unregisterReceiver(shutDownRC);
         super.onDestroy();
     }
 }
