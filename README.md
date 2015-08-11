@@ -14,7 +14,7 @@
 简单的网速监控app，尚待完善。
 
 
-![image](https://github.com/Fromnowon/netmeter_sample/raw/master/GIF_20150629_153713.gif)
+![image](https://github.com/Fromnowon/netmeter_sample/raw/master/pic.png)
 
 
 
