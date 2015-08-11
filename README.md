@@ -10,6 +10,14 @@
 
 
 
+apk下载：https://github.com/Fromnowon/netmeter_sample/raw/master/apk/Demo1.1.apk
+
+
+
+
+
+
+
 
 简单的网速监控app，尚待完善。
 
