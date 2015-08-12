@@ -15,12 +15,17 @@ import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -75,6 +80,9 @@ public class MainActivity extends Activity {
         SimpleAdapter adapter = new SimpleAdapter(this, getData(),
                 R.layout.draweritemlayout, new String[]{"img", "title"},
                 new int[]{R.id.drawer_iv, R.id.drawer_tv});
+        LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup loadMoreLayout = (ViewGroup) mInflater.inflate(R.layout.drawer_headview, null);
+        mDrawerList.addHeaderView(loadMoreLayout, null, false);
         mDrawerList.setAdapter(adapter);
         final Fragment fragment0 = new Fragment_Index();
         final Fragment fragment1 = new Fragment_MeterSetting();
@@ -94,7 +102,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                switch (position) {
+                switch (position-1) {
                     case 0: {
                         if (flag != 0)
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -133,7 +141,7 @@ public class MainActivity extends Activity {
                                     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
                                     com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
                                             .setAnimDuration(700)
-                                            .setDispalyDuration(1000)
+                                            .setDispalyDuration(700)
                                             .setBackgroundColor("#ff098173")
                                             .setTextColor("#ffffffff")
                                             .setIconBackgroundColor("#ff098173")
@@ -152,7 +160,7 @@ public class MainActivity extends Activity {
                                     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
                                     com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
                                             .setAnimDuration(700)
-                                            .setDispalyDuration(1000)
+                                            .setDispalyDuration(700)
                                             .setBackgroundColor("#ff0000")
                                             .setTextColor("#ffffffff")
                                             .setIconBackgroundColor("#ff0000")
