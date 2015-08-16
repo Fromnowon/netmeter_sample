@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,14 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.gitonway.lee.niftynotification.lib.Effects;
 import com.gitonway.lee.niftynotification.lib.NiftyNotificationView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 import com.netmeter.like.netmeter.Fragmments.Fragment_About;
 import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
@@ -75,7 +78,7 @@ public class MainActivity extends Activity {
 
     private void initShow() {
         //处理headview
-        
+
 
         SimpleAdapter adapter = new SimpleAdapter(this, getData(),
                 R.layout.draweritemlayout, new String[]{"img", "title"},
@@ -236,7 +239,6 @@ public class MainActivity extends Activity {
         });
     }
 
-
     private void initDrawer() {
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -275,9 +277,27 @@ public class MainActivity extends Activity {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         }
+        else if (item.getItemId() == R.id.action_cleardata){
+            DataUsageDB db = new DataUsageDB(this);
+            db.restore();
+            Toast.makeText(this, "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
+        }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (flag == 2){
+            return true;
+        }
+        else return false;
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

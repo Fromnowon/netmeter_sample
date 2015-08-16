@@ -96,6 +96,13 @@ public class DataUsageDB extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, where, whereValue);
     }
 
+    //清空
+    public void restore(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from traffic");
+        db.execSQL("update sqlite_sequence SET seq = 0 where name ='traffic'");
+    }
+
     //修改操作
     public void update(int id, int total, int wifi, int mobile) {
         SQLiteDatabase db = this.getWritableDatabase();

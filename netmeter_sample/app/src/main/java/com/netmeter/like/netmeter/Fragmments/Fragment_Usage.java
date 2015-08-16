@@ -57,10 +57,8 @@ public class Fragment_Usage extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //mChart = (CombinedChart) getActivity().findViewById(R.id.usage_chart);
         mChart = new CombinedChart(getActivity());
         mChart.setDescription("");
-        //mChart.setBackgroundColor(Color.WHITE);
         mChart.setDrawGridBackground(false);
         mChart.setDrawBarShadow(false);
 
