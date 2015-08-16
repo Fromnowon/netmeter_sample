@@ -35,9 +35,9 @@ dependencies {
     compile project(":ColorPickerPreference")
     compile 'com.nineoldandroids:library:2.4.+'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
-    compile 'com.nispok:snackbar:2.10.+'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
     compile 'com.eftimoff:androidplayer:1.0.3@aar'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'com.github.sd6352051:NiftyNotification:1.2'
+    compile 'com.flaviofaria:kenburnsview:1.0.6'
 }

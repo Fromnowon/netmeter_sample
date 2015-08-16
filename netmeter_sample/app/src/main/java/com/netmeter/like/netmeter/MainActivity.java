@@ -21,28 +21,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.gitonway.lee.niftynotification.lib.Effects;
 import com.gitonway.lee.niftynotification.lib.NiftyNotificationView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.netmeter.like.netmeter.Fragmments.Fragment_About;
 import com.netmeter.like.netmeter.Fragmments.Fragment_GlobleSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_MeterSetting;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
-import com.netmeter.like.netmeter.Services.DataUsageService;
 import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +74,9 @@ public class MainActivity extends Activity {
 
 
     private void initShow() {
+        //处理headview
+        
+
         SimpleAdapter adapter = new SimpleAdapter(this, getData(),
                 R.layout.draweritemlayout, new String[]{"img", "title"},
                 new int[]{R.id.drawer_iv, R.id.drawer_tv});
@@ -88,15 +88,16 @@ public class MainActivity extends Activity {
         final Fragment fragment1 = new Fragment_MeterSetting();
         final Fragment fragment2 = new Fragment_Usage();
         final Fragment fragment3 = new Fragment_GlobleSetting();
+        final Fragment fragment4 = new Fragment_About();
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        //程序启动完成后全部实例化。实测并没有用
         fragmentTransaction
                 .add(R.id.fragment_layout, fragment0)
                 .add(R.id.fragment_layout, fragment1)
                 .add(R.id.fragment_layout, fragment2)
                 .add(R.id.fragment_layout, fragment3)
-                .show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3)
+                .add(R.id.fragment_layout, fragment4)
+                .show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).hide(fragment4)
                 .commit();
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,7 +113,7 @@ public class MainActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentTransaction.show(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).commit();
+                                fragmentTransaction.hide(fragment1).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment0).commit();
                             }
                         }, 200);
                         mDrawerLayout.closeDrawers();
@@ -179,7 +180,7 @@ public class MainActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentTransaction.hide(fragment0).show(fragment1).hide(fragment2).hide(fragment3).commit();
+                                fragmentTransaction.hide(fragment0).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment1).commit();
                             }
                         }, 200);
                         flag = 1;
@@ -194,7 +195,7 @@ public class MainActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).show(fragment2).hide(fragment3).commit();
+                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment3).hide(fragment4).show(fragment2).commit();
                             }
                         }, 200);
                         flag = 2;
@@ -209,10 +210,25 @@ public class MainActivity extends Activity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).show(fragment3).commit();
+                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment4).show(fragment3).commit();
                             }
                         }, 200);
                         flag = 3;
+                        break;
+                    }
+                    case 4: {
+                        if (flag != 4)
+                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        tintManager.setStatusBarTintResource(R.color.my_bar_aboout);
+                        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_aboout));
+                        mDrawerLayout.closeDrawers();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).show(fragment4).commit();
+                            }
+                        }, 200);
+                        flag = 4;
                         break;
                     }
                 }
@@ -279,27 +295,27 @@ public class MainActivity extends Activity {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new HashMap<String, Object>();
 
-        map.put("img", R.drawable.ic_menu_selectall_holo_light);
+        map.put("img", R.drawable.list_index);
         map.put("title", "主页概览");
         list.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("img", R.drawable.perm_group_network);
+        map.put("img", R.drawable.list_network);
         map.put("title", "悬浮窗设置");
         list.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("img", R.drawable.ic_perm_group_display);
+        map.put("img", R.drawable.list_chart);
         map.put("title", "流量统计");
         list.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("img", R.drawable.perm_group_system_tools);
+        map.put("img", R.drawable.list_settings);
         map.put("title", "全局设置");
         list.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("img", R.drawable.airbutton_icon_share);
+        map.put("img", R.drawable.list_about);
         map.put("title", "关于");
         list.add(map);
 

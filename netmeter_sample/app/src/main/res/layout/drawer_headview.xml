@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:paddingBottom="10dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/head"
-        android:scaleType="center"/>
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/head_view"
+        android:layout_width="260dp"
+        android:layout_height="150dp"
+        android:src="@drawable/head" />
 
 </RelativeLayout>
