@@ -12,14 +12,13 @@
 
 apk下载：https://github.com/Fromnowon/netmeter_sample/raw/master/apk/
 
-
-（点击“raw”即可下载）
-
+（单击apk后，点击“raw”即可下载）
 
 
 
 
 
+.
 
 
 简单的网速监控app，尚待完善。
