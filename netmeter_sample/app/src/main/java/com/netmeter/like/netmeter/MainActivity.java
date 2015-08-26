@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -30,6 +31,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.gitonway.lee.niftynotification.lib.Effects;
 import com.gitonway.lee.niftynotification.lib.NiftyNotificationView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
@@ -102,24 +104,24 @@ public class MainActivity extends Activity {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 switch (position - 1) {
                     case 0: {
-                        if (flag != 0)
-                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        if (flag == 0) {
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        }
+                        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_index);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
-                        //延迟加载，解决加载卡顿问题
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fragmentTransaction.hide(fragment1).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment0).commit();
-                            }
-                        }, 200);
+                        fragmentTransaction.hide(fragment1).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment0).commit();
                         mDrawerLayout.closeDrawers();
                         flag = 0;
                         break;
                     }
                     case 1: {
-                        if (flag != 1)
-                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        if (flag == 1) {
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        }
+                        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         final SwitchButton btn = (SwitchButton) findViewById(R.id.netMeter);
                         if (btn.isChecked()) {
                             tintManager.setStatusBarTintResource(R.color.my_bar_setting);
@@ -173,57 +175,46 @@ public class MainActivity extends Activity {
                             }
                         });
                         mDrawerLayout.closeDrawers();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment1).commit();
-                            }
-                        }, 200);
+                        fragmentTransaction.hide(fragment0).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment1).commit();
                         flag = 1;
                         break;
                     }
                     case 2: {
-                        if (flag != 2)
-                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        if (flag == 2) {
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        }
+                        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_usage);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_usage));
                         mDrawerLayout.closeDrawers();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment3).hide(fragment4).show(fragment2).commit();
-                            }
-                        }, 200);
+                        fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment3).hide(fragment4).show(fragment2).commit();
                         flag = 2;
                         break;
                     }
                     case 3: {
-                        if (flag != 3)
-                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        if (flag == 3) {
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        }
+                        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_globle);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_globle));
                         mDrawerLayout.closeDrawers();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment4).show(fragment3).commit();
-                            }
-                        }, 200);
+                        fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment4).show(fragment3).commit();
                         flag = 3;
                         break;
                     }
                     case 4: {
-                        if (flag != 4)
-                            fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                        if (flag == 4) {
+                            mDrawerLayout.closeDrawers();
+                            break;
+                        }
+                        fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         tintManager.setStatusBarTintResource(R.color.my_bar_aboout);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_aboout));
                         mDrawerLayout.closeDrawers();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).show(fragment4).commit();
-                            }
-                        }, 200);
+                        fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).show(fragment4).commit();
                         flag = 4;
                         break;
                     }
@@ -377,7 +368,7 @@ public class MainActivity extends Activity {
             tv.setText(items_text[position]);
             img.setImageResource(items_img[position]);
             if (position == cur_pos) {
-                convertView.setBackgroundColor(0xff59d3e5);
+                convertView.setBackgroundColor(0x669b9b9b);
                 //tv.setTextColor(Color.RED);
             }
             return convertView;

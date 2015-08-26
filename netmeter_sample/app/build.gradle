@@ -40,5 +40,6 @@ dependencies {
     compile 'com.github.rey5137:material:1.2.1'
     compile 'com.github.sd6352051:NiftyNotification:1.2'
     compile 'com.flaviofaria:kenburnsview:1.0.6'
+    compile 'com.balysv:material-ripple:1.0.2'
 
 }
