@@ -23,12 +23,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.gitonway.lee.niftynotification.lib.Effects;
 import com.gitonway.lee.niftynotification.lib.NiftyNotificationView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
@@ -43,13 +44,6 @@ import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
 import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 public class MainActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
@@ -60,6 +54,9 @@ public class MainActivity extends Activity {
     private FragmentTransaction fragmentTransaction;
     private int flag = 0;
     private SystemBarTintManager tintManager;
+    private int cur_pos = 0;// 当前显示的一行
+    private String[] items_text = {"主页概览", "悬浮窗设置", "流量统计", "全局设置", "关于"};
+    private int[] items_img = {R.drawable.list_index, R.drawable.list_network, R.drawable.list_chart, R.drawable.list_settings, R.drawable.list_about};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +74,9 @@ public class MainActivity extends Activity {
 
 
     private void initShow() {
-        //处理headview
-
-
-        SimpleAdapter adapter = new SimpleAdapter(this, getData(),
-                R.layout.draweritemlayout, new String[]{"img", "title"},
-                new int[]{R.id.drawer_iv, R.id.drawer_tv});
+        final MyAdapter adapter = new MyAdapter(this);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewGroup loadMoreLayout = (ViewGroup) mInflater.inflate(R.layout.drawer_headview, null);
         mDrawerList.addHeaderView(loadMoreLayout, null, false);
@@ -106,7 +100,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 fragmentTransaction = fragmentManager.beginTransaction();
-                switch (position-1) {
+                switch (position - 1) {
                     case 0: {
                         if (flag != 0)
                             fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
@@ -156,8 +150,7 @@ public class MainActivity extends Activity {
                                             .build();
                                     NiftyNotificationView.build(MainActivity.this, "悬浮窗开启！", Effects.jelly, R.id.mLayout, cfg)
                                             .show();
-                                }
-                                else {
+                                } else {
                                     stopService(new Intent(getApplicationContext(), NetMeterService.class));
                                     editor.putString("NetMeter", "OFF");
                                     tintManager.setStatusBarTintResource(R.color.colorAccent);
@@ -235,6 +228,8 @@ public class MainActivity extends Activity {
                         break;
                     }
                 }
+                cur_pos = position - 1;
+                adapter.notifyDataSetInvalidated();
             }
         });
     }
@@ -276,8 +271,7 @@ public class MainActivity extends Activity {
             } else {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
-        }
-        else if (item.getItemId() == R.id.action_cleardata){
+        } else if (item.getItemId() == R.id.action_cleardata) {
             DataUsageDB db = new DataUsageDB(this);
             db.restore();
             Toast.makeText(this, "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
@@ -293,10 +287,9 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (flag == 2){
+        if (flag == 2) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -311,40 +304,7 @@ public class MainActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        map.put("img", R.drawable.list_index);
-        map.put("title", "主页概览");
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("img", R.drawable.list_network);
-        map.put("title", "悬浮窗设置");
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("img", R.drawable.list_chart);
-        map.put("title", "流量统计");
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("img", R.drawable.list_settings);
-        map.put("title", "全局设置");
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("img", R.drawable.list_about);
-        map.put("title", "关于");
-        list.add(map);
-
-        return list;
-    }
-
     public void transLucentStatus() {
-        //取消actionbar阴影
-        //getSupportActionBar().setElevation(0);
         getActionBar().setTitle("Demo");
         setTranslucentStatus(true);
         tintManager = new SystemBarTintManager(this);
@@ -382,5 +342,45 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         finish();
+    }
+
+    private class MyAdapter extends BaseAdapter {
+        private LayoutInflater inflater;
+
+        public MyAdapter(Context context) {
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return items_text.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items_text[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = inflater.inflate(R.layout.draweritemlayout, null, false);
+            ImageView img = (ImageView) convertView
+                    .findViewById(R.id.drawer_iv);
+            TextView tv = (TextView) convertView
+                    .findViewById(R.id.drawer_tv);
+            tv.setText(items_text[position]);
+            img.setImageResource(items_img[position]);
+            if (position == cur_pos) {
+                convertView.setBackgroundColor(0xff59d3e5);
+                //tv.setTextColor(Color.RED);
+            }
+            return convertView;
+        }
     }
 }

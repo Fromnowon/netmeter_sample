@@ -9,4 +9,5 @@
     <color name="my_bar_aboout">@android:color/holo_green_light</color>
     <color name="custom">#ffffff</color>
     <color name="colorAccent">#ff0000</color>
+    <color name="item_focus_bg">#59d3e5</color>
 </resources>
