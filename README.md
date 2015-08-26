@@ -10,7 +10,7 @@
 
 
 
-apk下载：https://github.com/Fromnowon/netmeter_sample/raw/master/apk/Demo1.1.apk
+apk下载：https://github.com/Fromnowon/netmeter_sample/raw/master/apk/
 
 
 
