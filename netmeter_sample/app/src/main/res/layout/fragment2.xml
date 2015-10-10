@@ -15,8 +15,7 @@
             <RelativeLayout
                 android:id="@+id/fragment2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </RelativeLayout>
+                android:layout_height="wrap_content"></RelativeLayout>
 
             <com.gc.materialdesign.views.Card
                 android:layout_width="match_parent"
@@ -45,6 +44,12 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </com.gc.materialdesign.views.Card>
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/time_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test" />
         </LinearLayout>
     </com.gc.materialdesign.views.ScrollView>
 
