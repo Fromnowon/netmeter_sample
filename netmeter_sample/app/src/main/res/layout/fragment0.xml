@@ -17,21 +17,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <View
+            android:layout_width="1dip"
+            android:layout_height="250dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#000000" />
+
         <TextView
             android:id="@+id/speed_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="8dp"
+            android:textColor="#66CCFF"
             android:textSize="20sp" />
 
         <com.txusballesteros.SnakeView
             android:id="@+id/index_snake"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="8dp"
             app:maxValue="4096"
             app:minValue="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/index_snake"
+            android:textSize="50sp"
+            android:visibility="gone"
+            android:text="0" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_below="@+id/index_snake"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#000000" />
     </com.gc.materialdesign.views.Card>
 
 </RelativeLayout>

@@ -25,6 +25,7 @@ public class Fragment_Index extends Fragment {
     private TextView speedText;
     private boolean Run = true;
     private double DownloadSpeed;
+    private Thread MyThread;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +59,14 @@ public class Fragment_Index extends Fragment {
         Run = false;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Run = false;
+        MyThread.interrupt();
+        MyThread = null;
+    }
+
     //计算下载速度
     public void C_DownloadSpeed() {
         final Handler DataHandler = new Handler() {
@@ -88,7 +97,7 @@ public class Fragment_Index extends Fragment {
                 }
             }
         };
-        Thread MyThread = new Thread() {
+        MyThread = new Thread() {
             @Override
             public void run() {
                 while (Run) {
