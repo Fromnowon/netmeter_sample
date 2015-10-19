@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/index_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,6 +9,29 @@
         android:id="@+id/index_pg"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerInParent="true"
         android:background="#ffff8800"
-        android:layout_centerInParent="true"/>
+        android:visibility="gone" />
+
+    <com.gc.materialdesign.views.Card
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/speed_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+        <com.txusballesteros.SnakeView
+            android:id="@+id/index_snake"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:padding="10dp"
+            app:maxValue="4096"
+            app:minValue="0" />
+    </com.gc.materialdesign.views.Card>
+
 </RelativeLayout>

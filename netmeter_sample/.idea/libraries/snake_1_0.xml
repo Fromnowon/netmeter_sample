@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="snake-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.txusballesteros/snake/1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.txusballesteros/snake/1.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.txusballesteros/snake/1.0/eb313b50b8790f9424bb531056cdb0115fead4f0/snake-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
