@@ -21,10 +21,10 @@ import java.text.DecimalFormat;
  */
 public class Fragment_Index extends Fragment {
 
-    private SnakeView snakeView;
-    private TextView speedText;
+    private SnakeView snakeView, snakeView_up;
+    private TextView speedText, speedText_up;
     private boolean Run = true;
-    private double DownloadSpeed;
+    private double DownloadSpeed, UploadSpeed;
     private Thread MyThread;
 
     @Override
@@ -37,7 +37,9 @@ public class Fragment_Index extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         snakeView = (SnakeView) getActivity().findViewById(R.id.index_snake);
+        snakeView_up = (SnakeView) getActivity().findViewById(R.id.index_snake_up);
         speedText = (TextView) getActivity().findViewById(R.id.speed_text);
+        speedText_up = (TextView) getActivity().findViewById(R.id.speed_text_up);
 
     }
 
@@ -70,7 +72,7 @@ public class Fragment_Index extends Fragment {
     //计算下载速度
     public void C_DownloadSpeed() {
         final Handler DataHandler = new Handler() {
-            long t1, t2 = TrafficStats.getTotalRxBytes();
+            long t1, t2 = TrafficStats.getTotalRxBytes(), t3, t4 = TrafficStats.getTotalTxBytes();
 
             @Override
             public void handleMessage(Message msg) {
@@ -78,13 +80,19 @@ public class Fragment_Index extends Fragment {
                 switch (msg.what) {
                     case 0: {
                         t1 = TrafficStats.getTotalRxBytes();
+                        t3 = TrafficStats.getTotalTxBytes();
                         DecimalFormat df = new DecimalFormat("#.0");
                         DownloadSpeed = Double.valueOf(df.format(change(t1 - t2))).doubleValue();
-                        Log.v("tag", DownloadSpeed+"");
+                        UploadSpeed = Double.valueOf(df.format(change(t3 - t4))).doubleValue();
+                        Log.v("tag", DownloadSpeed + "/" + UploadSpeed);
                         if (DownloadSpeed > 4096) snakeView.addValue(4096);
                         else snakeView.addValue((float) DownloadSpeed);
-                        speedText.setText(DownloadSpeed+"Kb/s");
+                        if (UploadSpeed > 4096) snakeView_up.addValue(4096);
+                        else snakeView_up.addValue((float) UploadSpeed);
+                        speedText.setText("D: " + DownloadSpeed + "Kb/s");
+                        speedText_up.setText("U: " + UploadSpeed + "Kb/s");
                         t2 = t1;
+                        t4 = t3;
                     }
                 }
             }

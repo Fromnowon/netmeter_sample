@@ -7,7 +7,7 @@
     <color name="my_bar_usage">#ff0a9eb7</color>
     <color name="my_bar_globle">#84000000</color>
     <color name="my_bar_aboout">@android:color/holo_green_light</color>
-    <color name="custom">#f9f9f9</color>
+    <color name="custom">#bcbcbc</color>
     <color name="colorAccent">#ff0000</color>
     <color name="item_focus_bg">#59d3e5</color>
     <color name="tmp">@android:color/darker_gray</color>

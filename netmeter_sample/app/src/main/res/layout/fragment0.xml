@@ -21,26 +21,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:padding="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp"
+                android:textColor="#78c257"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/speed_text_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/speed_text"
+                android:paddingRight="8dp"
                 android:textColor="#66CCFF"
-                android:textSize="20sp" />
+                android:textSize="12sp" />
 
             <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:mrl_rippleColor="#9b9b9b"
+                app:mrl_rippleColor="#bcbcbc"
                 app:mrl_rippleDuration="400">
 
-                <com.txusballesteros.SnakeView
-                    android:id="@+id/index_snake"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
-                    app:maxValue="4096"
-                    app:minValue="0" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.txusballesteros.SnakeView
+                        android:id="@+id/index_snake"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        app:maxValue="4096"
+                        app:minValue="0"
+                        app:strokeWidth="1dp" />
+
+                    <com.txusballesteros.SnakeView
+                        android:id="@+id/index_snake_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
+                        app:maxValue="4096"
+                        app:minValue="0"
+                        app:strokeColor="@android:color/holo_blue_dark"
+                        app:strokeWidth="0.5dp" />
+                </RelativeLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
         </RelativeLayout>
 
