@@ -105,7 +105,7 @@ public class Fragment_Index extends Fragment {
                     m.what = 0;
                     DataHandler.sendMessage(m);
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
