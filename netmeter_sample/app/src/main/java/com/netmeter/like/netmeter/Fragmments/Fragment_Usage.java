@@ -8,17 +8,12 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.gc.materialdesign.views.Button;
-import com.gc.materialdesign.views.ButtonFlat;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.XAxis;
@@ -33,9 +28,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.netmeter.like.netmeter.DataBase.DataUsageDB;
 import com.netmeter.like.netmeter.R;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by like on 15/6/28.

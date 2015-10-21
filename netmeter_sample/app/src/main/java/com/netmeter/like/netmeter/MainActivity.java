@@ -8,11 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,6 +44,8 @@ import com.netmeter.like.netmeter.Fragmments.Fragment_Index;
 import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
 import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends Activity {
 
@@ -109,7 +110,10 @@ public class MainActivity extends Activity {
                             break;
                         }
                         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                        tintManager.setStatusBarTintResource(R.color.my_bar_index);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                            tintManager.setStatusBarTintResource(R.color.my_bar_index_bar);
+                        else
+                            tintManager.setStatusBarTintResource(R.color.my_bar_index);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
                         fragmentTransaction.hide(fragment1).hide(fragment2).hide(fragment3).hide(fragment4).show(fragment0).commit();
                         mDrawerLayout.closeDrawers();
@@ -124,10 +128,16 @@ public class MainActivity extends Activity {
                         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
                         final SwitchButton btn = (SwitchButton) findViewById(R.id.netMeter);
                         if (btn.isChecked()) {
-                            tintManager.setStatusBarTintResource(R.color.my_bar_setting);
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                                tintManager.setStatusBarTintResource(R.color.my_bar_setting_bar);
+                            else
+                                tintManager.setStatusBarTintResource(R.color.my_bar_setting);
                             getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
                         } else {
-                            tintManager.setStatusBarTintResource(R.color.colorAccent);
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                                tintManager.setStatusBarTintResource(R.color.colorAccent_bar);
+                            else
+                                tintManager.setStatusBarTintResource(R.color.colorAccent);
                             getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
                         }
                         final SharedPreferences.Editor editor = getSharedPreferences("settings_save", Context.MODE_WORLD_WRITEABLE).edit();
@@ -137,7 +147,10 @@ public class MainActivity extends Activity {
                                 if (isChecked) {
                                     startService(new Intent(getApplicationContext(), NetMeterService.class));
                                     editor.putString("NetMeter", "ON");
-                                    tintManager.setStatusBarTintResource(R.color.my_bar_setting);
+                                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                                        tintManager.setStatusBarTintResource(R.color.my_bar_setting_bar);
+                                    else
+                                        tintManager.setStatusBarTintResource(R.color.my_bar_setting);
                                     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_setting));
                                     com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
                                             .setAnimDuration(700)
@@ -155,7 +168,10 @@ public class MainActivity extends Activity {
                                 } else {
                                     stopService(new Intent(getApplicationContext(), NetMeterService.class));
                                     editor.putString("NetMeter", "OFF");
-                                    tintManager.setStatusBarTintResource(R.color.colorAccent);
+                                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                                        tintManager.setStatusBarTintResource(R.color.colorAccent_bar);
+                                    else
+                                        tintManager.setStatusBarTintResource(R.color.colorAccent);
                                     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorAccent));
                                     com.gitonway.lee.niftynotification.lib.Configuration cfg = new com.gitonway.lee.niftynotification.lib.Configuration.Builder()
                                             .setAnimDuration(700)
@@ -185,7 +201,10 @@ public class MainActivity extends Activity {
                             break;
                         }
                         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                        tintManager.setStatusBarTintResource(R.color.my_bar_usage);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                            tintManager.setStatusBarTintResource(R.color.my_bar_usage_bar);
+                        else
+                            tintManager.setStatusBarTintResource(R.color.my_bar_usage);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_usage));
                         mDrawerLayout.closeDrawers();
                         fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment3).hide(fragment4).show(fragment2).commit();
@@ -198,7 +217,10 @@ public class MainActivity extends Activity {
                             break;
                         }
                         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                        tintManager.setStatusBarTintResource(R.color.my_bar_globle);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                            tintManager.setStatusBarTintResource(R.color.my_bar_globle_bar);
+                        else
+                            tintManager.setStatusBarTintResource(R.color.my_bar_globle);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_globle));
                         mDrawerLayout.closeDrawers();
                         fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment4).show(fragment3).commit();
@@ -211,7 +233,10 @@ public class MainActivity extends Activity {
                             break;
                         }
                         fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
-                        tintManager.setStatusBarTintResource(R.color.my_bar_aboout);
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                            tintManager.setStatusBarTintResource(R.color.my_bar_aboout_bar);
+                        else
+                            tintManager.setStatusBarTintResource(R.color.my_bar_aboout);
                         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_aboout));
                         mDrawerLayout.closeDrawers();
                         fragmentTransaction.hide(fragment0).hide(fragment1).hide(fragment2).hide(fragment3).show(fragment4).commit();
@@ -263,9 +288,32 @@ public class MainActivity extends Activity {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
         } else if (item.getItemId() == R.id.action_cleardata) {
-            DataUsageDB db = new DataUsageDB(this);
-            db.restore();
-            Toast.makeText(this, "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
+            final DataUsageDB db = new DataUsageDB(this);
+            //Toast.makeText(this, "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
+            /*TextView clear = new TextView(this);
+            clear.setText("!!!!!");
+            clear.setTextSize(50);
+            AlertDialogPro.Builder clearData = new AlertDialogPro.Builder(this);
+            clearData.setView(clear).show();*/
+            final MaterialDialog clearData = new MaterialDialog(this);
+            clearData.setTitle("警告！")
+                    .setCanceledOnTouchOutside(true)
+                    .setMessage("确定清除统计数据吗？")
+                    .setNegativeButton("返回", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            clearData.dismiss();
+                        }
+                    })
+                    .setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            db.restore();
+                            Toast.makeText(getApplicationContext(), "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
+                            clearData.dismiss();
+                        }
+                    });
+            clearData.show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -300,7 +348,10 @@ public class MainActivity extends Activity {
         setTranslucentStatus(true);
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.my_bar_index);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+            tintManager.setStatusBarTintResource(R.color.my_bar_index_bar);
+        else
+            tintManager.setStatusBarTintResource(R.color.my_bar_index);
         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.my_bar_index));
         SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);

@@ -42,4 +42,5 @@ dependencies {
     compile 'com.flaviofaria:kenburnsview:1.0.6'
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.txusballesteros:snake:1.0'
+    compile 'me.drakeet.materialdialog:library:1.2.2'
 }

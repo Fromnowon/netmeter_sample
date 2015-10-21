@@ -9,8 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
-
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +22,8 @@
                 android:paddingRight="8dp"
                 android:paddingTop="8dp"
                 android:textColor="#78c257"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold"/>
             <TextView
                 android:id="@+id/speed_text_up"
                 android:layout_width="wrap_content"
@@ -33,7 +32,7 @@
                 android:layout_below="@+id/speed_text"
                 android:paddingRight="8dp"
                 android:textColor="#66CCFF"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
 
             <com.balysv.materialripple.MaterialRippleLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"

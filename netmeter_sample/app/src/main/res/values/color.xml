@@ -3,12 +3,20 @@
     <color name="actionbar_color">#bf360c</color>
     <color name="setting_bar">#ff098173</color>
     <color name="my_bar_index">#ffff8800</color>
+    <color name="my_bar_index_bar">#d16f00</color>
     <color name="my_bar_setting">#ff098173</color>
+    <color name="my_bar_setting_bar">#065c52</color>
     <color name="my_bar_usage">#ff0a9eb7</color>
+    <color name="my_bar_usage_bar">#066a7b</color>
     <color name="my_bar_globle">#84000000</color>
-    <color name="my_bar_aboout">@android:color/holo_green_light</color>
+    <color name="my_bar_globle_bar">#7b000000</color>
+    <color name="my_bar_aboout">#ff99cc00</color>
+    <color name="my_bar_aboout_bar">#6a8c00</color>
     <color name="custom">#bcbcbc</color>
+
     <color name="colorAccent">#ff0000</color>
+    <color name="colorAccent_bar">#c60000</color>
+
     <color name="item_focus_bg">#59d3e5</color>
     <color name="tmp">@android:color/darker_gray</color>
 </resources>
