@@ -31,6 +31,11 @@ apk下载：https://github.com/Fromnowon/netmeter_sample/raw/master/apk/
 ------------更新历史------------
 
 
+2015.10.22
+
+    在主页添加了动态测速曲线，同时更换了流量统计图标库。
+
+
 
 
 2015.8.11
