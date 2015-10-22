@@ -35,7 +35,6 @@ dependencies {
     compile project(":ColorPickerPreference")
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
     compile 'com.eftimoff:androidplayer:1.0.3@aar'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'com.github.sd6352051:NiftyNotification:1.2'
@@ -43,4 +42,5 @@ dependencies {
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.txusballesteros:snake:1.0'
     compile 'me.drakeet.materialdialog:library:1.2.2'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }

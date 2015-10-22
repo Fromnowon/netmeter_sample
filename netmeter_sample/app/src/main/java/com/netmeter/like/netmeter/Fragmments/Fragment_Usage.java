@@ -1,173 +1,198 @@
 package com.netmeter.like.netmeter.Fragmments;
 
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.netmeter.like.netmeter.DataBase.DataUsageDB;
+import android.widget.Toast;
+
+import com.gc.materialdesign.views.ButtonFlat;
 import com.netmeter.like.netmeter.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
+import lecho.lib.hellocharts.model.ComboLineColumnChartData;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.util.ChartUtils;
+import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 
 /**
  * Created by like on 15/6/28.
  */
 public class Fragment_Usage extends Fragment {
 
-    private CombinedChart mChart;
-    private final int itemcount = 7;
-    private RelativeLayout parent;
-    private View v;
-    private float total, wifi, mobile;
-    private DataUsageDB db;
-    private Cursor mCursor;
+    private ComboLineColumnChartView chart;
+    private ComboLineColumnChartData data;
+
+    private int numberOfLines = 1;
+    private int maxNumberOfLines = 4;
+    private int numberOfPoints = 12;
+
+    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+    private boolean hasAxes = true;
+    private boolean hasAxesNames = false;
+    private boolean hasPoints = true;
+    private boolean hasLines = true;
+    private boolean isCubic = false;
+    private boolean hasLabels = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        v = inflater.inflate(R.layout.fragment2, container, false);
-        IntentFilter filter = new IntentFilter("com.netmeter.like.netmeter.TRAFFIC_DATA");
-        getActivity().registerReceiver(myReceiver, filter);
-        return v;
+        View index_view = inflater.inflate(R.layout.fragment2, container, false);
+        chart = (ComboLineColumnChartView) index_view.findViewById(R.id.chart);
+        chart.setOnValueTouchListener(new ValueTouchListener());
+        generateValues();
+        generateData();
+        ButtonFlat test = (ButtonFlat) index_view.findViewById(R.id.test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prepareDataAnimation();
+                chart.startDataAnimation();
+            }
+        });
+        return index_view;
+    }
+
+    private void generateValues() {
+        for (int i = 0; i < maxNumberOfLines; ++i) {
+            for (int j = 0; j < numberOfPoints; ++j) {
+                randomNumbersTab[i][j] = (float) Math.random() * 50f + 5;
+            }
+        }
+    }
+
+    private void generateData() {
+        // Chart looks the best when line data and column data have similar maximum viewports.
+        data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("Axis X");
+                axisY.setName("Axis Y");
+            }
+            axisX.setTextSize(15);
+            axisY.setTextSize(10);
+            data.setAxisXBottom(axisX);
+            data.setAxisYLeft(axisY);
+        } else {
+            data.setAxisXBottom(null);
+            data.setAxisYLeft(null);
+        }
+
+        chart.setComboLineColumnChartData(data);
+    }
+
+    private LineChartData generateLineData() {
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            }
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLORS[i]);
+            line.setCubic(isCubic);
+            //line.setHasLabels(hasLabels);
+            line.setHasLabelsOnlyForSelected(true);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+            lines.add(line);
+        }
+
+        LineChartData lineChartData = new LineChartData(lines);
+
+        return lineChartData;
+
+    }
+
+    private ColumnChartData generateColumnData() {
+        int numSubcolumns = 1;
+        int numColumns = 12;
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+        for (int i = 0; i < numColumns; ++i) {
+
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue((float) Math.random() * 50 + 5, ChartUtils.COLOR_GREEN));
+            }
+
+            columns.add(new Column(values));
+        }
+
+        ColumnChartData columnChartData = new ColumnChartData(columns);
+        return columnChartData;
+    }
+
+    private void addLineToData() {
+        if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
+            Toast.makeText(getActivity(), "Samples app uses max 4 lines!", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            ++numberOfLines;
+        }
+
+        generateData();
+    }
+
+    private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener {
+
+        @Override
+        public void onValueDeselected() {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onColumnValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+            Toast.makeText(getActivity(), "Selected column: " + value, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
+            Toast.makeText(getActivity(), "Selected line point: " + value, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    private void prepareDataAnimation() {
+
+        // Line animations
+        for (Line line : data.getLineChartData().getLines()) {
+            for (PointValue value : line.getValues()) {
+                // Here I modify target only for Y values but it is OK to modify X targets as well.
+                value.setTarget(value.getX(), (float) Math.random() * 50 + 5);
+            }
+        }
+
+        // Columns animations
+        for (Column column : data.getColumnChartData().getColumns()) {
+            for (SubcolumnValue value : column.getValues()) {
+                value.setTarget((float) Math.random() * 50 + 5);
+            }
+        }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mChart = new CombinedChart(getActivity());
-        mChart.setDescription("");
-        mChart.setDrawGridBackground(false);
-        mChart.setDrawBarShadow(false);
-
-        // draw bars behind lines
-        mChart.setDrawOrder(new DrawOrder[]{
-                DrawOrder.BAR, DrawOrder.BUBBLE, DrawOrder.CANDLE, DrawOrder.LINE, DrawOrder.SCATTER
-        });
-        YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setDrawGridLines(false);
-
-        //底部x轴描述
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        String[] mMonths = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        final CombinedData data = new CombinedData(mMonths);
-
-        data.setData(generateLineData());
-        data.setData(generateBarData());
-        mChart.setData(data);
-        mChart.invalidate();
-        parent = (RelativeLayout) v.findViewById(R.id.fragment2);
-        WindowManager wm = getActivity().getWindowManager();
-        mChart.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, wm.getDefaultDisplay().getHeight() / 2));
-        parent.addView(mChart);
-        //更新绘图
-        TextView tv0 = (TextView) v.findViewById(R.id.tv0);
-        TextView tv1 = (TextView) v.findViewById(R.id.tv1);
-        TextView tv2 = (TextView) v.findViewById(R.id.tv2);
-        tv0.setText("总流量：" + total + " M");
-        tv1.setText("无线：" + wifi + " M");
-        tv2.setText("数据：" + mobile + " M");
-    }
-
-
-    private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context arg0, Intent intent) {
-            //此时已数据库已更新数据库
-            initData();
-
-        }
-    };
-
-    public void initData(){
-        db = new DataUsageDB(getActivity());
-        mCursor = db.select();
-        mCursor.moveToLast();
-        total = mCursor.getFloat(6);
-        wifi = mCursor.getFloat(7);
-        mobile = mCursor.getFloat(8);
-        mCursor.close();
-    }
-
-
-    private LineData generateLineData() {
-
-        LineData d = new LineData();
-
-        ArrayList<Entry> entries = new ArrayList<Entry>();
-
-        for (int index = 1; index < itemcount; index++)
-            entries.add(new Entry(0 , index));
-        entries.add(new Entry(mobile, 0));
-
-        LineDataSet set = new LineDataSet(entries, "数据流量");
-        set.setColor(Color.rgb(240, 238, 70));
-        set.setLineWidth(2.5f);
-        set.setCircleColor(Color.rgb(240, 238, 70));
-        set.setCircleSize(5f);
-        set.setFillColor(Color.rgb(240, 238, 70));
-        set.setDrawCubic(true);
-        set.setDrawValues(true);
-        set.setValueTextSize(10f);
-        set.setValueTextColor(Color.rgb(240, 238, 70));
-
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-        d.addDataSet(set);
-
-        return d;
-    }
-
-    private BarData generateBarData() {
-
-        BarData d = new BarData();
-
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-
-        for (int index = 1; index < itemcount; index++)
-            entries.add(new BarEntry(0, index));
-        entries.add(new BarEntry(total, 0));
-
-        BarDataSet set = new BarDataSet(entries, "总流量");
-        set.setColor(Color.rgb(60, 220, 78));
-        set.setValueTextColor(Color.rgb(60, 220, 78));
-        set.setValueTextSize(10f);
-        d.addDataSet(set);
-
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-        return d;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(myReceiver);
     }
 }
