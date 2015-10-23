@@ -45,6 +45,9 @@ import com.netmeter.like.netmeter.Fragmments.Fragment_Usage;
 import com.netmeter.like.netmeter.Services.NetMeterService;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends Activity {
@@ -289,12 +292,6 @@ public class MainActivity extends Activity {
             }
         } else if (item.getItemId() == R.id.action_cleardata) {
             final DataUsageDB db = new DataUsageDB(this);
-            //Toast.makeText(this, "流量统计数据已重置！", Toast.LENGTH_SHORT).show();
-            /*TextView clear = new TextView(this);
-            clear.setText("!!!!!");
-            clear.setTextSize(50);
-            AlertDialogPro.Builder clearData = new AlertDialogPro.Builder(this);
-            clearData.setView(clear).show();*/
             final MaterialDialog clearData = new MaterialDialog(this);
             clearData.setTitle("警告！")
                     .setCanceledOnTouchOutside(true)
@@ -377,7 +374,31 @@ public class MainActivity extends Activity {
             mDrawerLayout.closeDrawers();
             return true;
         }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click(); //调用双击退出函数
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            onDestroy();
+        }
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.util.List;
 
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.ComboLineColumnChartData;
@@ -35,7 +36,7 @@ public class Fragment_Usage extends Fragment {
 
     private int numberOfLines = 1;
     private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
+    private int numberOfPoints = 7;
 
     float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
@@ -87,6 +88,13 @@ public class Fragment_Usage extends Fragment {
             }
             axisX.setTextSize(15);
             axisY.setTextSize(10);
+            //横坐标数据
+            List<AxisValue> axisValues = new ArrayList<AxisValue>();
+            for (int i = 0; i < numberOfPoints; ++i) {
+                String[] months = new String[]{"Mon", "Tus", "Thu", "Wed", "Fri", "Sat", "Sun"};
+                axisValues.add(new AxisValue(i).setLabel(months[i]));
+                axisX.setValues(axisValues);
+            }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
         } else {
@@ -125,7 +133,7 @@ public class Fragment_Usage extends Fragment {
 
     private ColumnChartData generateColumnData() {
         int numSubcolumns = 1;
-        int numColumns = 12;
+        int numColumns = numberOfPoints;
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
         List<SubcolumnValue> values;
@@ -141,17 +149,6 @@ public class Fragment_Usage extends Fragment {
 
         ColumnChartData columnChartData = new ColumnChartData(columns);
         return columnChartData;
-    }
-
-    private void addLineToData() {
-        if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
-            Toast.makeText(getActivity(), "Samples app uses max 4 lines!", Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            ++numberOfLines;
-        }
-
-        generateData();
     }
 
     private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener {
@@ -173,6 +170,7 @@ public class Fragment_Usage extends Fragment {
         }
 
     }
+
     private void prepareDataAnimation() {
 
         // Line animations
